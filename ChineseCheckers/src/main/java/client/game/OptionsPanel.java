@@ -1,4 +1,6 @@
 package client.game;
 
-public class OptionsPanel {
+public class OptionsPanel
+{
+
 }

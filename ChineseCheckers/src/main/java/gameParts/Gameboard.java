@@ -17,8 +17,6 @@ public class Gameboard {
                 System.out.println(board[x][y].getX()+","+board[x][y].getY());}
             }
         }
-
-
     }
 
     private void createConstatns(){

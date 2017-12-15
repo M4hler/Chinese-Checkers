@@ -8,6 +8,7 @@ public class GameWindow extends JFrame{
         contains gameboardpanel and game optionspanel like pause,chat,save etc
      */
     GameBoardPanel panel;
+
     public GameWindow(){
         this.setResizable(false);
         this.setSize(1000,1000);
