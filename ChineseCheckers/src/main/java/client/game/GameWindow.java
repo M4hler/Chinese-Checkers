@@ -13,8 +13,8 @@ public class GameWindow extends JFrame{
         this.setResizable(false);
         this.setSize(1000,1000);
         this.setLayout(null);
-        panel = new GameBoardPanel(4);
-        this.add(panel);
+//        panel = new GameBoardPanel(4);
+ //       this.add(panel);
         this.setVisible(true);
     }
 }

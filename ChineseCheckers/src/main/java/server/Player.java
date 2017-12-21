@@ -1,0 +1,81 @@
+package server;
+
+import gameParts.Gameboard;
+
+import java.net.Socket;
+import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class Player extends Thread
+{
+    private String name;
+    private Socket socket;
+    private BufferedReader in;
+    private PrintWriter out;
+
+    public Player(Socket socket)
+    {
+        this.socket = socket;
+    }
+
+    public void run()
+    {
+        try
+        {
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
+
+            while (true)
+            {
+                out.println("SUBMITNAME");
+                name = in.readLine();
+                if (name == null)
+                {
+                    return;
+                }
+                synchronized (Server.names)
+                {
+                    if (!Server.names.contains(name))
+                    {
+                        out.println("NAMEACCEPTED");
+                        Server.names.add(name);
+                        break;
+                    }
+                }
+            }
+
+            while(true)
+            {
+                out.println("BOARDSIZE");
+                String boardsize = in.readLine();
+                if(boardsize == null)
+                {
+                    return;
+                }
+                else
+                {
+                    try
+                    {
+                        int size = Integer.parseInt(boardsize);
+                        out.println(boardsize);
+                    }
+                    catch(NumberFormatException e)
+                    {
+                        continue;
+                    }
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            System.out.println(e);
+        }
+        finally
+        {
+            Server.names.remove(name);
+        }
+    }
+}
