@@ -7,14 +7,14 @@ public class GameWindow extends JFrame{
         opened after connection with server and game starting
         contains gameboardpanel and game optionspanel like pause,chat,save etc
      */
-    GameBoardPanel panel;
+    private GameBoardPanel panel;
 
-    public GameWindow(){
+    public GameWindow(int radius){
         this.setResizable(false);
         this.setSize(1000,1000);
         this.setLayout(null);
-//        panel = new GameBoardPanel(4);
- //       this.add(panel);
+        panel = new GameBoardPanel(radius);
+        this.add(panel);
         this.setVisible(true);
     }
 }

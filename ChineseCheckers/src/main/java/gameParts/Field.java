@@ -1,5 +1,9 @@
 package gameParts;
 
+import server.Player;
+
+import java.awt.*;
+
 public class Field {
     /*
     private Pawn pawn;
@@ -21,18 +25,18 @@ public class Field {
     //try with using Axial coordinates
         private Pawn pawn;
         private Point coordinates;
-        public boolean isTriangle; //is player field
+        private Color color;
 
-        public Field(Point coordinates,boolean isTriangle){
+        public Field(Point coordinates, Color color){
             this.coordinates=coordinates;
             this.pawn=null;
-            this.isTriangle=isTriangle;
+            this.color=color;
         }
 
-        public Field(int x, int y, boolean isTriangle) {
+        public Field(int x, int y, Color color) {
             coordinates = new Point(x, y);
             this.pawn=null;
-            this.isTriangle=isTriangle;
+            this.color=color;
         }
 
     public int getX() {
@@ -41,5 +45,9 @@ public class Field {
 
     public int getY() {
         return coordinates.getY();
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

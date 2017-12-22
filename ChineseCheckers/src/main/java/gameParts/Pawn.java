@@ -1,16 +1,18 @@
 package gameParts;
 
+import java.awt.*;
+
 public class Pawn {
-    public Pawn(PlayerColor color){
+    public Pawn(Color color){
         this.color=color;
     }
-    private PlayerColor color; // (can enum be null? ) maybe normal class not enum
+    private Color color;
 
-    public void setColor(PlayerColor color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
-    public PlayerColor getColor() {
+    public Color getColor() {
         return color;
     }
 }

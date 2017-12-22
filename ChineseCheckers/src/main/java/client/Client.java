@@ -2,7 +2,6 @@ package client;
 
 import client.game.GameWindow;
 import client.game.GameBoardPanel;
-import gameParts.Gameboard;
 import server.Port;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,10 +51,10 @@ public class Client implements Port
             }
             else
             {
-                GameWindow gw = new GameWindow();
-                GameBoardPanel panel = new GameBoardPanel(Integer.valueOf(line));
-                gw.add(panel);
-//                Gameboard gameboard = new Gameboard(Integer.valueOf(line));
+                GameWindow gw = new GameWindow(Integer.valueOf(line));
+                //GameBoardPanel panel = new GameBoardPanel();
+               // gw.add(panel);
+//                GameboardCreator gameboard = new GameboardCreator(Integer.valueOf(line));
                 break;
             }
         }
