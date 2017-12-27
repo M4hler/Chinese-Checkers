@@ -1,14 +1,14 @@
 package server;
 // an instance of single game (multiple games can be played at one time at server)
 
-import gameParts.Gameboard;
+import gameParts.GameboardCreator;
 
 public class Game
 {
-    private Gameboard gameboard;
+    private GameboardCreator gameboard;
 
     public Game(int boardSize)
     {
-        gameboard = new Gameboard(boardSize);
+        gameboard = new GameboardCreator(boardSize);
     }
 }

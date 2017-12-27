@@ -3,5 +3,12 @@
   <groupId>ChineseCheckers</groupId>
   <artifactId>ChineseCheckers</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Chinese Checkers</name>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.9</version>
+        </dependency>
+    </dependencies>
+    <name>Chinese Checkers</name>
 </project>

@@ -1,22 +1,19 @@
 package gameParts;
 
-public class Gameboard {
+import java.awt.*;
+public class GameboardCreator {
     private Point constants[];
-    private int size;
+    private int radius;
     private Field board [][];
 
-    public Gameboard(int size){
-        this.size=size;
-        board = new Field[4*size+1][4*size+1];
+    public GameboardCreator(int radius) {
         createConstatns();
+
+        this.radius = radius;
+        board = new Field[4 * radius + 1][4 * radius + 1];
+
         initializeMidField();
         initializeTriangles();
-        for(int x=0;x<4*size+1;x++){
-            for(int y=0;y<4*size+1;y++){
-                if(board[x][y]!=null){
-                System.out.println(board[x][y].getX()+","+board[x][y].getY());}
-            }
-        }
     }
 
     private void createConstatns(){
@@ -28,57 +25,64 @@ public class Gameboard {
        constants[4]=new Point(-1,0);    //Left
        constants[5]=new Point(0,-1);    //UpperLeft
     }
-    void initializeMidField() {
+    private void initializeMidField() {
         int x, y;
-        board[2*size][2*size]=new Field(new Point(0,0),false); //middle point init
-        for (int i = 1; i <= this.size; i++) {
+        board[2*radius][2*radius]=new Field(new Point(0,0),null); //middle point init
+        for (int i = 1; i <= this.radius; i++) {
             x = -i;
             y = 0; //starting point, running circles with constants
             for (int j = 0; j < 6; j++) {
                 for (int k = 0; k < i; k++) {
                     x += constants[j].getX();
                     y += constants[j].getY();
-                    board[x + 2 * size][y + 2 * size] = new Field(x, y, false);
-                    //  }
+                    board[x + 2 * radius][y + 2 * radius] = new Field(x, y, null);
                 }
             }
         }
     }
-    void initializeTriangles(){
+    private void initializeTriangles(){
         int x,y,c;
+        Color color;
         for(int p=0;p<6;p++){
 
             if(p==0){
                 x=0;
-                y=-size;
+                y=-radius;
                 c=4;
+                color= Color.BLACK;
+
             }else if(p==1){
-                x=size;
-                y=-size;
+                x=radius;
+                y=-radius;
                 c=5;
+                color=Color.BLUE;
             }else if(p==2){
-                x=size;
+                x=radius;
                 y=0;
                 c=6;
+                color=Color.GREEN;
             }else if(p==3){
                 x=0;
-                y=size;
+                y=radius;
                 c=1;
+                color=Color.RED;
             }else if(p==4){
-                x=-size;
-                y=size;
+                x=-radius;
+                y=radius;
                 c=2;
+                color=Color.WHITE;
             }else{
-                x=-size;
+                x=-radius;
                 y=0;
                 c=3;
+                color=Color.YELLOW;
             }
-            for(int i=size;i>0;i--){
+            for(int i=radius;i>0;i--){
                 c=(c+2)%6;
                 for(int j=0;j<i;j++){
                     x+=constants[c].getX();
                     y+=constants[c].getY();
-                    board[x+2*size][y+2*size]=new Field(x,y,true);
+                    board[x+2*radius][y+2*radius]=new Field(x,y,color);
                 }
 
             }
