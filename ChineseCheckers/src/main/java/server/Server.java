@@ -12,14 +12,16 @@ import java.util.ArrayList;
 public class Server implements Port
 {
     public static ArrayList<String> names;
+    public static ArrayList<Game> games;
     private ArrayList<Player> players;
 
     public Server() throws IOException
     {
-        ServerSocket listener = new ServerSocket(PORT);
+        ServerSocket listener = new ServerSocket(8080); //PORT is in use
         InetAddress  ip;
         names = new ArrayList<String>();
         players = new ArrayList<Player>();
+        games = new ArrayList<Game>();
 
         try
         {

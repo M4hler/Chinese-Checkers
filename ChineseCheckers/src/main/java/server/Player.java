@@ -47,6 +47,12 @@ public class Player extends Thread
                 }
             }
 
+            for(Game g : Server.games)
+            {
+                out.println("GAMES");
+            }
+            out.println("NOMORE");
+
             while(true)
             {
                 out.println("BOARDSIZE");
@@ -61,6 +67,7 @@ public class Player extends Thread
                     {
                         int size = Integer.parseInt(boardsize);
                         out.println(boardsize);
+                        Server.games.add(new Game(size));
                     }
                     catch(NumberFormatException e)
                     {

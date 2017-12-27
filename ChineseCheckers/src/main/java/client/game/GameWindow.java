@@ -15,6 +15,6 @@ public class GameWindow extends JFrame{
         this.setLayout(null);
 //        panel = new GameBoardPanel(4);
  //       this.add(panel);
-        this.setVisible(true);
+//        this.setVisible(true);
     }
 }
