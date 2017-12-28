@@ -25,34 +25,11 @@ public class Player extends Thread
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
 
-            while (true)
-            {
-                out.println("SUBMITNAME");
-                name = in.readLine();
-                if (name == null)
-                {
-                    return;
-                }
-                synchronized (Server.names)
-                {
-                    if (!Server.names.contains(name))
-                    {
-                        out.println("NAMEACCEPTED");
-                        Server.names.add(name);
-                        break;
-                    }
-                }
-            }
-
-            for(Game g : Server.games)
-            {
-                out.println("GAMES");
-            }
-            out.println("NOMORE");
+            Submitname();
+            Games();
 
             while(true)
             {
-                out.println("BOARDSIZE");
                 String boardsize = in.readLine();
                 if(boardsize == null)
                 {
@@ -63,6 +40,7 @@ public class Player extends Thread
                     try
                     {
                         int size = Integer.parseInt(boardsize);
+                        out.println("RETURN");
                         out.println(boardsize);
                         Server.games.add(new Game(size));
                     }
@@ -81,5 +59,45 @@ public class Player extends Thread
         {
             Server.names.remove(name);
         }
+    }
+
+    private void Games()
+    {
+        for(Game g : Server.games)
+        {
+            out.println("GAMES");
+        }
+        out.println("NOMORE");
+        return;
+    }
+
+    private void Submitname()
+    {
+        try
+        {
+            while (true)
+            {
+                out.println("SUBMITNAME");
+                name = in.readLine();
+                if (name == null)
+                {
+                    return;
+                }
+                synchronized (Server.names)
+                {
+                    if (!Server.names.contains(name))
+                    {
+                        out.println("NAMEACCEPTED");
+                        Server.names.add(name);
+                        break;
+                    }
+                }
+            }
+        }
+        catch(IOException e)
+        {
+
+        }
+        return;
     }
 }

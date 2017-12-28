@@ -6,7 +6,7 @@ import java.awt.*;
 public class StartingWindow extends JFrame
 {
     /* connects with server,
-        waits for other users, sets number of players, plocked during the game(maybe closed)
+        waits for other users, sets number of players, blocked during the game(maybe closed)
       */
     private JButton createGame;
     private JButton joinGame;

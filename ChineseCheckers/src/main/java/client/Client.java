@@ -4,32 +4,52 @@ import client.game.GameWindow;
 import client.game.GameBoardPanel;
 import server.Port;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.Container;
 import java.awt.Component;
 
 public class Client implements Port
 {
-	BufferedReader in;
-	PrintWriter out;
-	JFrame frame = new JFrame("Chinese checkers");
-	JMenuBar menubar;
-	JMenu menu;
-	JMenuItem menuitem;
+	private BufferedReader in;
+	private PrintWriter out;
+	private JFrame frame = new JFrame("Chinese checkers");
+	private JMenuBar menubar;
+	private JButton helpMenu;
+	private JButton createGameButton;
+//	JMenuItem menuitem;
 
-	public Client()
+	private Client()
 	{
 		menubar = new JMenuBar();
-		menu = new JMenu("Help");
-		menubar.add(menu) ;
+		createGameButton = new JButton("Create game");
+		helpMenu = new JButton("Help");
+
+		createGameButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String line = getBoardSize();
+				out.println(line);
+			}
+		});
+
+		menubar.add(createGameButton);
+		menubar.add(Box.createHorizontalGlue());
+		menubar.add(helpMenu);
+
 		frame.setJMenuBar(menubar);
 		Container pane = frame.getContentPane();
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+
 		frame.setSize(400, 400);
 	}
 
@@ -72,21 +92,14 @@ public class Client implements Port
 		}
 
 		while(true)
-        {
-            String line = in.readLine();
-            if (line.startsWith("BOARDSIZE"))
-            {
-                out.println(getBoardSize());
-            }
-            else
-            {
-                GameWindow gw = new GameWindow(Integer.valueOf(line));
-                //GameBoardPanel panel = new GameBoardPanel();
-               // gw.add(panel);
-//                GameboardCreator gameboard = new GameboardCreator(Integer.valueOf(line));
-                break;
-            }
-        }
+		{
+			String line = in.readLine();
+			if(line.startsWith("RETURN"))
+			{
+				String size = in.readLine();
+				GameWindow gw = new GameWindow(Integer.valueOf(size));
+			}
+		}
 	}
 
 	private void addAButton(Container container)
