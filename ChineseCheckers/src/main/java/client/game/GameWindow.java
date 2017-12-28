@@ -10,12 +10,12 @@ public class GameWindow extends JFrame{
      */
     private GameBoardPanel panel;
 
-    public GameWindow(int radius, Controller controller, Color player){
+    public GameWindow(int radius/*, Controller controller, Color player*/){
         this.setResizable(false);
         this.setSize(1000,1000);
         this.setLayout(null);
 
-        panel = new GameBoardPanel(radius,player,new Controller(panel));
+        panel = new GameBoardPanel(radius/*,player,new Controller(panel)*/);
         this.add(panel);
 
         this.setVisible(true);

@@ -14,7 +14,7 @@ public class GameBoardPanel extends JPanel{
     private FieldButton[][] board;
     Color player;
 
-    GameBoardPanel(int radius,Color player,Controller controller) { //TODO: add player(by color?) to constructor to rotate map
+    GameBoardPanel(int radius/*,Color player,Controller controller*/) { //TODO: add player(by color?) to constructor to rotate map
         this.setLayout(null);
         this.setSize(1000, 1000);
         Field[][] board = new GameboardCreator(radius).getBoard();
@@ -41,7 +41,7 @@ public class GameBoardPanel extends JPanel{
                     b.addActionListener(actionEvent -> {
                         //System.out.println(" x:" + b.coordinates.getX()+" y: "+b.coordinates.getY());
                         //swapTest(b);
-                        controller.fieldButtonClicked(b);
+//                        controller.fieldButtonClicked(b);
                     });
                     this.board[x][y] = b;
 

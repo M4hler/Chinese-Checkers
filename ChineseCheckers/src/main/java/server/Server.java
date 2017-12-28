@@ -12,8 +12,8 @@ import java.util.ArrayList;
 public class Server implements Port
 {
     public static ArrayList<String> names;
-    public static ArrayList<Game> games;
-    private ArrayList<Player> players;
+    public static  ArrayList<Game> games;
+    public static ArrayList<Player> players;
 
     public Server() throws IOException
     {

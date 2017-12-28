@@ -31,6 +31,16 @@ public class Player extends Thread
             while(true)
             {
                 String boardsize = in.readLine();
+                if(boardsize.startsWith("JOIN GAME"))
+                {
+                    String input = in.readLine();
+                    Server.games.get(Integer.valueOf(input)).players.add(this);
+                    for(Player p : Server.players)
+                    {
+                        p.Games();
+                    }
+                }
+
                 if(boardsize == null)
                 {
                     return;
@@ -42,7 +52,13 @@ public class Player extends Thread
                         int size = Integer.parseInt(boardsize);
                         out.println("RETURN");
                         out.println(boardsize);
-                        Server.games.add(new Game(size));
+                        Game g = new Game(size);
+                        Server.games.add(g);
+                        g.players.add(this);
+                        for(Player p : Server.players)
+                        {
+                            p.Games();
+                        }
                     }
                     catch(NumberFormatException e)
                     {
@@ -61,11 +77,17 @@ public class Player extends Thread
         }
     }
 
-    private void Games()
+    public void Games()
     {
+        out.println("START");
         for(Game g : Server.games)
         {
             out.println("GAMES");
+            for(Player p : g.players)
+            {
+                out.println(p.name);
+            }
+            out.println("NEXT");
         }
         out.println("NOMORE");
         return;

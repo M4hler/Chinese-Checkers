@@ -1,9 +1,11 @@
 package client;
 
+import client.game.Controller;
 import client.game.GameWindow;
 import client.game.GameBoardPanel;
 import server.Port;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -11,11 +13,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
-import java.awt.Container;
-import java.awt.Component;
 
 public class Client implements Port
 {
@@ -25,10 +26,13 @@ public class Client implements Port
 	private JMenuBar menubar;
 	private JButton helpMenu;
 	private JButton createGameButton;
+	private ArrayList<JPanel> jpanels;
 //	JMenuItem menuitem;
 
 	private Client()
 	{
+		jpanels = new ArrayList<JPanel>();
+
 		menubar = new JMenuBar();
 		createGameButton = new JButton("Create game");
 		helpMenu = new JButton("Help");
@@ -77,23 +81,30 @@ public class Client implements Port
 		while(true)
 		{
 			String line = in.readLine();
+			if(line.startsWith("START"))
+			{
+				frame.getContentPane().removeAll();
+				jpanels = new ArrayList<JPanel>();
+			}
 			if(line.startsWith("GAMES"))
 			{
-				addAButton(frame.getContentPane());
+				JPanel panel = addAButton(frame.getContentPane());
+
+				String l = in.readLine();
+				while(!l.equals("NEXT"))
+				{
+					JLabel jl = new JLabel(l);
+					panel.add(jl);
+					l = in.readLine();
+				}
+				jpanels.add(panel);
+				frame.getContentPane().add(panel);
 
 				frame.invalidate();
 				frame.validate();
 				frame.repaint();
 			}
-			else
-			{
-				break;
-			}
-		}
 
-		while(true)
-		{
-			String line = in.readLine();
 			if(line.startsWith("RETURN"))
 			{
 				String size = in.readLine();
@@ -102,11 +113,24 @@ public class Client implements Port
 		}
 	}
 
-	private void addAButton(Container container)
+	private JPanel addAButton(Container container)
 	{
-		JButton button = new JButton("Game");
-		button.setAlignmentX(Component.CENTER_ALIGNMENT);
-		container.add(button);
+		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JButton jb = new JButton("Join Game");
+		jb.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				out.println("JOIN GAME" );
+				out.println(jpanels.indexOf(panel));
+			}
+		});
+
+		jb.setAlignmentX(JButton.RIGHT);
+		panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel.add(jb);
+
+		return panel;
 	}
 
 	private String getServerAddress()
