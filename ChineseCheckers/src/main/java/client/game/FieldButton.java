@@ -5,12 +5,14 @@ import gameParts.Point;
 import javax.swing.*;
 
 class FieldButton extends JButton{
-    Point coordinates;
+    private Point coordinates;
 
     FieldButton(Point point){
         super();
         coordinates=point;
     }
 
-
+    public Point getCoordinates() {
+        return coordinates;
+    }
 }
