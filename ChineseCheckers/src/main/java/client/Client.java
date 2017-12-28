@@ -97,7 +97,7 @@ public class Client implements Port
 			if(line.startsWith("RETURN"))
 			{
 				String size = in.readLine();
-				GameWindow gw = new GameWindow(Integer.valueOf(size));
+				//GameWindow gw = new GameWindow(Integer.valueOf(size));
 			}
 		}
 	}

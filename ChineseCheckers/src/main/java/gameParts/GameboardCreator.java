@@ -94,5 +94,6 @@ public class GameboardCreator {
     public Field[][] getBoard() {
         return board;
     }
+    public Point[] getConstants(){return constants;}
 }
 

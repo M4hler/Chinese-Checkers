@@ -50,4 +50,8 @@ public class Field {
     public Color getColor() {
         return color;
     }
+
+    public Pawn getPawn() {  return pawn; }
+
+    public void addPawn(Pawn pawn){ this.pawn=pawn; }
 }
