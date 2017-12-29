@@ -1,7 +1,5 @@
 package gameParts;
 
-public enum PlayerColor {
+public enum PlayerColor { //used for Pawns painting only
     RED , GREEN , YELLOW , BLUE , BLACK , WHITE
 }
-//TODO: reconsider the conception of player on a map (how to identify pawn/fields)
-

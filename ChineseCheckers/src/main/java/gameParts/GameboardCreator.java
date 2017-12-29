@@ -1,5 +1,7 @@
 package gameParts;
 
+import server.Player;
+
 import java.awt.*;
 public class GameboardCreator {
     private Point constants[];
@@ -43,39 +45,47 @@ public class GameboardCreator {
     private void initializeTriangles(){
         int x,y,c;
         Color color;
+        PlayerColor pcolor;
         for(int p=0;p<6;p++){
 
             if(p==0){
                 x=0;
                 y=-radius;
                 c=4;
-                color= Color.BLACK;
+                color= Color.GRAY;
+                pcolor=PlayerColor.BLACK;
 
             }else if(p==1){
                 x=radius;
                 y=-radius;
                 c=5;
                 color=Color.BLUE;
+                pcolor=PlayerColor.BLUE;
             }else if(p==2){
                 x=radius;
                 y=0;
                 c=6;
                 color=Color.GREEN;
+                pcolor= PlayerColor.GREEN;
             }else if(p==3){
                 x=0;
                 y=radius;
                 c=1;
                 color=Color.RED;
+                pcolor=PlayerColor.RED;
             }else if(p==4){
                 x=-radius;
                 y=radius;
                 c=2;
                 color=Color.WHITE;
+                pcolor=PlayerColor.WHITE;
+
             }else{
                 x=-radius;
                 y=0;
                 c=3;
                 color=Color.YELLOW;
+                pcolor=PlayerColor.YELLOW;
             }
             for(int i=radius;i>0;i--){
                 c=(c+2)%6;
@@ -83,6 +93,7 @@ public class GameboardCreator {
                     x+=constants[c].getX();
                     y+=constants[c].getY();
                     board[x+2*radius][y+2*radius]=new Field(x,y,color);
+                    board[x+2*radius][y+2*radius].addPawn(new Pawn(pcolor));
                 }
 
             }

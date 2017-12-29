@@ -2,24 +2,27 @@ package client.game;
 
 import gameParts.Field;
 import gameParts.GameboardCreator;
+import gameParts.Pawn;
 import gameParts.Point;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class GameBoardPanel extends JPanel{
+public class GameBoardPanel extends JPanel {
 
 
     private FieldButton buttonForTesting;
     private FieldButton[][] board;
     Color player;
+    Colors pawnColors;
 
-    GameBoardPanel(int radius,Color player,Controller controller) { //TODO: add player(by color?) to constructor to rotate map
+    GameBoardPanel(int radius, Color player, Controller controller) { //TODO: add player(by color?) to constructor to rotate map
         controller.addPanel(this);
         this.setLayout(null);
         this.setSize(1000, 1000);
         Field[][] board = new GameboardCreator(radius).getBoard();
         this.player = player;
+        pawnColors = new Colors();
 
         int size = 4 * radius + 1; //size is a range of board
         this.board = new FieldButton[size][size];
@@ -28,20 +31,29 @@ public class GameBoardPanel extends JPanel{
         int baseX = 450;
         int baseY = 350;
 
-        int tempX,tempY;
+        int tempX, tempY;
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
                 if (board[x][y] != null) {
-                    tempX = baseX + (portion*2*(board[x][y].getX()));
-                    tempX = tempX + (((board[x][y].getY())*portion));
-                    tempY = baseY + (portion*2*(board[x][y].getY()));
+                    tempX = baseX + (portion * 2 * (board[x][y].getX()));
+                    tempX = tempX + (((board[x][y].getY()) * portion));
+                    tempY = baseY + (portion * 2 * (board[x][y].getY()));
 
-                    FieldButton b = new FieldButton(new Point(x,y));
-                    b.setBounds(tempX, tempY, 15, 15);
-                    b.setBackground((board[x][y].getColor()==null) ? Color.GRAY : board[x][y].getColor());
+                    FieldButton b = new FieldButton(new Point(x, y));
+                    b.setBounds(tempX, tempY, 20, 20);
+
+                    b.setPawn(board[x][y].getPawn());
+
+
+
+                    b.setBackground((board[x][y].getColor() == null) ? Color.GRAY : board[x][y].getColor());
+                    b.setDefaultColor((board[x][y].getColor() == null) ? Color.GRAY : board[x][y].getColor());
+
+                    b.colorPawn(pawnColors);
+
                     b.addActionListener(actionEvent -> {
                         //System.out.println(" x:" + b.coordinates.getX()+" y: "+b.coordinates.getY());
-                        //swapTest(b);
+                        swapTest(b);
 //                        controller.fieldButtonClicked(b);
                     });
                     this.board[x][y] = b;
@@ -51,19 +63,44 @@ public class GameBoardPanel extends JPanel{
             }
         }
     }
-    private void swapTest(FieldButton but){
-        if(buttonForTesting==null){
-            buttonForTesting=but;
-        }else{
-            Color c=buttonForTesting.getBackground();
+
+    private void swapTest(FieldButton but) {
+        if (buttonForTesting == null) {
+            buttonForTesting = but;
+        } else {
+            movePawn(buttonForTesting.getCoordinates().getX(),buttonForTesting.getCoordinates().getY(),but.getCoordinates().getX(),but.getCoordinates().getY());
+            /*Color c = buttonForTesting.getBackground();
             buttonForTesting.setBackground(but.getBackground());
-            but.setBackground(c);
-            buttonForTesting=null;
+            but.setBackground(c);*/
+            buttonForTesting = null;
         }
     }
-     void movePawn(int x1,int y1,int x2,int y2){}
-     void higlight(ArrayList<Point> points){}
-     void lowlight(ArrayList<Point> points){}
+
+    void movePawn(int x1, int y1, int x2, int y2) {
+        Pawn pawn = board[x1][y1].getPawn();
+        board[x2][y2].setPawn(pawn);
+        board[x2][y2].colorPawn(pawnColors);
+        board[x1][y1].setPawn(null);
+        board[x1][y1].colorPawn(pawnColors);
+    }
+
+    void higlight(ArrayList<Point> points) {
+        int x, y;
+        for (Point p : points) {
+            x = p.getX();
+            y = p.getY();
+            board[x][y].setBackground(pawnColors.highlighted);
+        }
+    }
+
+    void lowlight(ArrayList<Point> points) {
+        int x, y;
+        for (Point p : points) {
+            x = p.getX();
+            y = p.getY();
+            board[x][y].setDefaultBackgroundColor();
+        }
 
 
+    }
 }
