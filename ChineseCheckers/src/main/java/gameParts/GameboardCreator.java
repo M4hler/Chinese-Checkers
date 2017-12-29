@@ -8,14 +8,14 @@ public class GameboardCreator {
     private int radius;
     private Field board [][];
 
-    public GameboardCreator(int radius) {
+    public GameboardCreator(int radius,int numberOfPlayers) {
         createConstatns();
 
         this.radius = radius;
         board = new Field[4 * radius + 1][4 * radius + 1];
 
         initializeMidField();
-        initializeTriangles();
+        initializeTriangles(numberOfPlayers);
     }
 
     private void createConstatns(){
@@ -42,18 +42,21 @@ public class GameboardCreator {
             }
         }
     }
-    private void initializeTriangles(){
+    private void initializeTriangles(int numberOfPlayers){
         int x,y,c;
         Color color;
         PlayerColor pcolor;
+        boolean doesPlay;
         for(int p=0;p<6;p++){
-
+            doesPlay=true;
             if(p==0){
                 x=0;
                 y=-radius;
                 c=4;
                 color= Color.GRAY;
                 pcolor=PlayerColor.BLACK;
+                if(numberOfPlayers==3)
+                    doesPlay=false;
 
             }else if(p==1){
                 x=radius;
@@ -61,39 +64,52 @@ public class GameboardCreator {
                 c=5;
                 color=Color.BLUE;
                 pcolor=PlayerColor.BLUE;
+                if(numberOfPlayers==2)
+                    doesPlay=false;
             }else if(p==2){
                 x=radius;
                 y=0;
                 c=6;
                 color=Color.GREEN;
                 pcolor= PlayerColor.GREEN;
+                if(numberOfPlayers!=6)
+                    doesPlay=false;
             }else if(p==3){
                 x=0;
                 y=radius;
                 c=1;
                 color=Color.RED;
                 pcolor=PlayerColor.RED;
+
             }else if(p==4){
                 x=-radius;
                 y=radius;
                 c=2;
                 color=Color.WHITE;
                 pcolor=PlayerColor.WHITE;
-
+                if(numberOfPlayers!=4 && numberOfPlayers!=6)
+                    doesPlay=false;
             }else{
                 x=-radius;
                 y=0;
                 c=3;
                 color=Color.YELLOW;
                 pcolor=PlayerColor.YELLOW;
+                if(numberOfPlayers!=6 && numberOfPlayers!=3)
+                    doesPlay=false;
             }
             for(int i=radius;i>0;i--){
                 c=(c+2)%6;
                 for(int j=0;j<i;j++){
                     x+=constants[c].getX();
                     y+=constants[c].getY();
-                    board[x+2*radius][y+2*radius]=new Field(x,y,color);
-                    board[x+2*radius][y+2*radius].addPawn(new Pawn(pcolor));
+
+                    if(doesPlay){
+                        board[x+2*radius][y+2*radius]=new Field(x,y,color);
+                        board[x+2*radius][y+2*radius].addPawn(new Pawn(pcolor));
+                    }else{
+                        board[x+2*radius][y+2*radius]=new Field(x,y,Color.gray);
+                    }
                 }
 
             }

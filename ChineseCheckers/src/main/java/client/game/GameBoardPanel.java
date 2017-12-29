@@ -20,7 +20,7 @@ public class GameBoardPanel extends JPanel {
         controller.addPanel(this);
         this.setLayout(null);
         this.setSize(1000, 1000);
-        Field[][] board = new GameboardCreator(radius).getBoard();
+        Field[][] board = new GameboardCreator(radius,4).getBoard();
         this.player = player;
         pawnColors = new Colors();
 

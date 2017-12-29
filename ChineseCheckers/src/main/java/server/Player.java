@@ -52,7 +52,7 @@ public class Player extends Thread
                         int size = Integer.parseInt(boardsize);
                         out.println("RETURN");
                         out.println(boardsize);
-                        Game g = new Game(size);
+                        Game g = new Game(size,4);
                         Server.games.add(g);
                         g.players.add(this);
                         for(Player p : Server.players)

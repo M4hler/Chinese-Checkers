@@ -15,8 +15,8 @@ public class Game {
     //ArrayList<Point> possibleMoves = new ArrayList<>();
     public ArrayList<Player> players;
 
-    public Game(int boardSize) {
-        GameboardCreator creator = new GameboardCreator(boardSize);
+    public Game(int boardSize,int numberOfPlayers) {
+        GameboardCreator creator = new GameboardCreator(boardSize,4);
         constants = creator.getConstants();
         //TODO: gameboard.addPawns(int playersNumber);
         gameboard = creator.getBoard();

@@ -19,7 +19,7 @@ public class GameLogicMethodsTests {
 
     @Before
     public void setUp(){
-        game = new Game(2);
+        game = new Game(2,4);
         p=null;
         game.gameboard[3][5].addPawn(new Pawn(PlayerColor.WHITE));
         game.gameboard[5][3].addPawn(new Pawn(PlayerColor.WHITE));
