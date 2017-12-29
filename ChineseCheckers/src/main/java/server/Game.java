@@ -14,13 +14,17 @@ public class Game
     int boardSize;
 
     ArrayList<Point> possibleMoves = new ArrayList<>();
+    public ArrayList<Player> players;
 
-    public Game(int boardSize) {
+    public Game(int boardSize)
+    {
         GameboardCreator creator = new GameboardCreator(boardSize);
         constants=creator.getConstants();
         //TODO: gameboard.addPawns(int playersNumber);
         gameboard=creator.getBoard();
         this.boardSize=4*boardSize+1;
+
+        players = new ArrayList<>();
     }
 
 
