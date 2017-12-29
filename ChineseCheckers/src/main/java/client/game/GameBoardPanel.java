@@ -14,7 +14,8 @@ public class GameBoardPanel extends JPanel{
     private FieldButton[][] board;
     Color player;
 
-    GameBoardPanel(int radius/*,Color player,Controller controller*/) { //TODO: add player(by color?) to constructor to rotate map
+    GameBoardPanel(int radius,Color player,Controller controller) { //TODO: add player(by color?) to constructor to rotate map
+        controller.addPanel(this);
         this.setLayout(null);
         this.setSize(1000, 1000);
         Field[][] board = new GameboardCreator(radius).getBoard();
@@ -60,9 +61,9 @@ public class GameBoardPanel extends JPanel{
             buttonForTesting=null;
         }
     }
-     void movePawn(FieldButton OLD,FieldButton NEW){}
-     void higlight(ArrayList<FieldButton> buttons){}
-     void lowlight(ArrayList<FieldButton> buttons){}
+     void movePawn(int x1,int y1,int x2,int y2){}
+     void higlight(ArrayList<Point> points){}
+     void lowlight(ArrayList<Point> points){}
 
 
 }

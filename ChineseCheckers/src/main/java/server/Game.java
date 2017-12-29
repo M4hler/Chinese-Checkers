@@ -7,88 +7,141 @@ import gameParts.Point;
 
 import java.util.ArrayList;
 
-public class Game
-{
+public class Game {
     public Field[][] gameboard;
     private Point constants[];
     int boardSize;
 
-    ArrayList<Point> possibleMoves = new ArrayList<>();
+    //ArrayList<Point> possibleMoves = new ArrayList<>();
     public ArrayList<Player> players;
 
-    public Game(int boardSize)
-    {
+    public Game(int boardSize) {
         GameboardCreator creator = new GameboardCreator(boardSize);
-        constants=creator.getConstants();
+        constants = creator.getConstants();
         //TODO: gameboard.addPawns(int playersNumber);
-        gameboard=creator.getBoard();
-        this.boardSize=4*boardSize+1;
+        gameboard = creator.getBoard();
+        this.boardSize = 4 * boardSize + 1;
 
         players = new ArrayList<>();
     }
 
 
-    public void returnPossibleMoves(int x,int y) {
+    public ArrayList<Point> returnPossibleMoves(int x, int y) {
+        ArrayList<Point> possibleMoves = new ArrayList<>();
         int tempX, tempY;
+
         for (Point direction : constants) {
             tempX = x + direction.getX();
             tempY = y + direction.getY();
-            if (tempX < 0 || tempY < 0) {
+
+            if (tempX < 0 || tempY < 0 || tempX >= boardSize || tempY >= boardSize || gameboard[tempX][tempY] == null) {
                 continue;
             }
-            if (tempX >= boardSize || tempY >= boardSize) {
-                continue;
-            }
-            if (gameboard[tempX][tempY] != null) {
+
+            if (gameboard[tempX][tempY].getPawn() == null) { //empty filed, able to move
+                if (!possibleMoves.contains(new Point(tempX, tempY)))
+                    possibleMoves.add(new Point(tempX, tempY));
+            } else { //checks if is possible to jump over pawn
+                tempX += direction.getX();
+                tempY += direction.getY();
+                if (tempX < 0 || tempY < 0 || tempX >= boardSize || tempY >= boardSize || gameboard[tempX][tempY] == null) {
+                    continue;
+                }
+
                 if (gameboard[tempX][tempY].getPawn() == null) {
                     if (!possibleMoves.contains(new Point(tempX, tempY))) {
                         possibleMoves.add(new Point(tempX, tempY));
-                    }
-
-                } else {
-                    tempX += direction.getX();
-                    tempY += direction.getY();
-                    if(tempX<0 || tempY<0){continue;}
-                    if(tempX>=boardSize || tempY>=boardSize){continue;}
-
-                    if (gameboard[tempX][tempY] != null) {
-                        if (gameboard[tempX][tempY].getPawn() == null) {
-                            if (!possibleMoves.contains(new Point(tempX, tempY))) {
-                                possibleMoves.add(new Point(tempX, tempY));
-                                searchJumps(tempX, tempY, direction);
-                            }
-                        }
+                        searchJumps(tempX, tempY, direction, possibleMoves);
                     }
                 }
             }
         }
-    }
-    void searchJumps(int x,int y,Point comingFrom){
-        int tempX,tempY;
-        for(Point direction: constants) {
-            if((direction.getX()==-(comingFrom.getX()))&&(direction.getY()==-(comingFrom.getY()))) {continue;} //avoid checking direction where we did come from?
-            tempX = x + direction.getX();
-            tempY = y + direction.getY();
-            if(tempX<0 || tempY<0){continue;} if(tempX>=boardSize || tempY>=boardSize){continue;}
-            if (gameboard[tempX][tempY] != null) {
-                if (gameboard[tempX][tempY].getPawn() != null) {
-                    tempX += direction.getX();
-                    tempY += direction.getY();
-                    if(tempX<0 || tempY<0){continue;} if(tempX>=boardSize || tempY>=boardSize){continue;}
-                    if (gameboard[tempX][tempY] != null) {
-                        if (gameboard[tempX][tempY].getPawn() == null) {
-                            if (!possibleMoves.contains(new Point(tempX, tempY))) {
-                                possibleMoves.add(new Point(tempX, tempY));
-                                searchJumps(tempX, tempY,direction);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public ArrayList<Point> getPossibleMoves() {
         return possibleMoves;
     }
+
+    private void searchJumps(int x, int y, Point comingFrom, ArrayList<Point> possibleMoves) {
+        int tempX, tempY;
+        for (Point direction : constants) {
+            if ((direction.getX() == -(comingFrom.getX())) && (direction.getY() == -(comingFrom.getY()))) {
+                continue;
+            }
+            //^^avoid checking direction where we did come from
+            tempX = x + direction.getX();
+            tempY = y + direction.getY();
+
+            if (tempX < 0 || tempY < 0 || tempX >= boardSize || tempY >= boardSize || gameboard[tempX][tempY] == null) {
+                continue;
+            }
+
+            if (gameboard[tempX][tempY].getPawn() != null) {
+                tempX += direction.getX();
+                tempY += direction.getY();
+
+                if (tempX < 0 || tempY < 0 || tempX >= boardSize || tempY >= boardSize || gameboard[tempX][tempY] == null) {
+                    continue;
+                }
+
+                if (gameboard[tempX][tempY].getPawn() == null) {
+                    if (!possibleMoves.contains(new Point(tempX, tempY))) {
+                        possibleMoves.add(new Point(tempX, tempY));
+                        searchJumps(tempX, tempY, direction, possibleMoves);
+                    }
+                }
+            }
+        }
+    }
+
+    public boolean canMove(int x1, int y1, int x2, int y2) {
+
+        if (returnPossibleMoves(x1, y1).contains(new Point(x2, y2))) {
+            return true;
+
+        } else{
+            return false;
+        }
+
+    }
+
+    void decodeMessage(String message){
+        String code[]=message.split(",");
+        if(code[0].equals("getMoves")){
+            int x,y;
+            x=Integer.parseInt(code[1]);
+            y=Integer.parseInt(code[2]);
+            String array="returnMoves";
+            ArrayList<Point> p = returnPossibleMoves(x,y);
+            for(Point point: p){
+                array=array+","+point.getX()+","+point.getY();
+            }
+            sendMessage(array); //sending fileds where player can move
+
+        }else if(code[0].equals("canMove")){
+            int x1,y1,x2,y2;
+            x1=Integer.parseInt(code[1]);
+            y1=Integer.parseInt((code[2]));
+            x2=Integer.parseInt((code[3]));
+            y2=Integer.parseInt((code[4]));
+            boolean b=canMove(x1,y1,x2,y2);
+            if(b==true){
+                sendMessage("move,"+x1+","+y1+","+x2+","+y2); //TODO: TO ALL PLAYERS
+                changeTurn();
+            }else{
+                sendMessage("wrongMove");
+            }
+        }else if(code[0].equals("changeTurn")){
+            changeTurn();
+        }
+    }
+    void sendMessage(String message){
+        //if(starts with move send to all? ?
+        //
+        //
+        //
+    }
+
+    private void changeTurn(){
+        //TODO: implement (depending on reprezentation of player)
+    }
+
+
 }
