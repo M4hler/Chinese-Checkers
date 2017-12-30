@@ -12,10 +12,14 @@ public class Player extends Thread
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
+    private int status;
+    private Game g;
 
     public Player(Socket socket)
     {
         this.socket = socket;
+        status = 0;
+        g = null;
     }
 
     public void run()
@@ -31,14 +35,40 @@ public class Player extends Thread
             while(true)
             {
                 String boardsize = in.readLine();
+                if(status == 1)
+                {
+                    return;
+                }
+
                 if(boardsize.startsWith("JOIN GAME"))
                 {
                     String input = in.readLine();
-                    Server.games.get(Integer.valueOf(input)).players.add(this);
+                    status = 1;
+                    if(!Server.games.get(Integer.valueOf(input)).players.contains(this))
+                    {
+                        Server.games.get(Integer.valueOf(input)).players.add(this);
+                    }
+
                     for(Player p : Server.players)
                     {
                         p.Games();
                     }
+                }
+
+                if(boardsize.startsWith("CLOSED"))
+                {
+                    Server.games.get(Server.games.indexOf(g)).players.remove(this);
+                    if(Server.games.get(Server.games.indexOf(g)).players.isEmpty())
+                    {
+                        Server.games.remove(Server.games.indexOf(g));
+                    }
+                    status = 0;
+                    this.Games();
+                    for(Player p : Server.players)
+                    {
+                        p.Games();
+                    }
+                    out.println("REFRESH");
                 }
 
                 if(boardsize == null)
@@ -52,7 +82,7 @@ public class Player extends Thread
                         int size = Integer.parseInt(boardsize);
                         out.println("RETURN");
                         out.println(boardsize);
-                        Game g = new Game(size);
+                        g = new Game(size);
                         Server.games.add(g);
                         g.players.add(this);
                         for(Player p : Server.players)

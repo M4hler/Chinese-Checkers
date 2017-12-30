@@ -2,11 +2,8 @@ package server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class Server implements Port
@@ -15,13 +12,13 @@ public class Server implements Port
     public static  ArrayList<Game> games;
     public static ArrayList<Player> players;
 
-    public Server() throws IOException
+    private Server() throws IOException
     {
         ServerSocket listener = new ServerSocket(8080); //PORT is in use
         InetAddress  ip;
-        names = new ArrayList<String>();
-        players = new ArrayList<Player>();
-        games = new ArrayList<Game>();
+        names = new ArrayList<>();
+        players = new ArrayList<>();
+        games = new ArrayList<>();
 
         try
         {

@@ -15,8 +15,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
 public class Client implements Port
 {
@@ -108,7 +106,14 @@ public class Client implements Port
 			if(line.startsWith("RETURN"))
 			{
 				String size = in.readLine();
-				//GameWindow gw = new GameWindow(Integer.valueOf(size));
+				GameWindow gw = new GameWindow(Integer.valueOf(size), in, out);
+			}
+
+			if(line.startsWith("REFRESH"))
+			{
+				frame.invalidate();
+				frame.validate();
+				frame.repaint();
 			}
 		}
 	}

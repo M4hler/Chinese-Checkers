@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 public class GameBoardPanelTest {
     @Before
@@ -13,7 +16,7 @@ public class GameBoardPanelTest {
 
     @Test
     public void test(){
-        GameWindow w = new GameWindow(5/*,null ,Color.red */);
+        GameWindow w = new GameWindow(5, null, null/*,null ,Color.red */);
         while(true);
     }
     @After
