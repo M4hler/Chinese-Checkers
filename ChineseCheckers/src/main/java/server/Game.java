@@ -11,6 +11,7 @@ public class Game {
     public Field[][] gameboard;
     private Point constants[];
     int boardSize;
+    int valueNeededForWindowToDrawBoard; //temporary name
 
     //ArrayList<Point> possibleMoves = new ArrayList<>();
     public ArrayList<Player> players;
@@ -21,6 +22,7 @@ public class Game {
         //TODO: gameboard.addPawns(int playersNumber);
         gameboard = creator.getBoard();
         this.boardSize = 4 * boardSize + 1;
+        valueNeededForWindowToDrawBoard = boardSize;
 
         players = new ArrayList<>();
     }

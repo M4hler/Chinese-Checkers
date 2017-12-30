@@ -40,6 +40,7 @@ public class Client implements Port
 			public void actionPerformed(ActionEvent e)
 			{
 				String line = getBoardSize();
+				out.println("CREATE");
 				out.println(line);
 			}
 		});

@@ -35,64 +35,69 @@ public class Player extends Thread
             while(true)
             {
                 String boardsize = in.readLine();
-                if(status == 1)
-                {
-                    return;
-                }
 
-                if(boardsize.startsWith("JOIN GAME"))
+                if(status == 0)
                 {
-                    String input = in.readLine();
-                    status = 1;
-                    if(!Server.games.get(Integer.valueOf(input)).players.contains(this))
-                    {
-                        Server.games.get(Integer.valueOf(input)).players.add(this);
-                    }
+                    if (boardsize.startsWith("JOIN GAME")) {
+                        String input = in.readLine();
+                        status = 1;
+                        if (!Server.games.get(Integer.valueOf(input)).players.contains(this)) {
+                            Server.games.get(Integer.valueOf(input)).players.add(this);
+                            g = Server.games.get(Integer.valueOf(input));
+                            out.println("RETURN");
+                            out.println(Server.games.get(Integer.valueOf(input)).valueNeededForWindowToDrawBoard);
+                        }
 
-                    for(Player p : Server.players)
-                    {
-                        p.Games();
-                    }
-                }
-
-                if(boardsize.startsWith("CLOSED"))
-                {
-                    Server.games.get(Server.games.indexOf(g)).players.remove(this);
-                    if(Server.games.get(Server.games.indexOf(g)).players.isEmpty())
-                    {
-                        Server.games.remove(Server.games.indexOf(g));
-                    }
-                    status = 0;
-                    this.Games();
-                    for(Player p : Server.players)
-                    {
-                        p.Games();
-                    }
-                    out.println("REFRESH");
-                }
-
-                if(boardsize == null)
-                {
-                    return;
-                }
-                else
-                {
-                    try
-                    {
-                        int size = Integer.parseInt(boardsize);
-                        out.println("RETURN");
-                        out.println(boardsize);
-                        g = new Game(size,4);
-                        Server.games.add(g);
-                        g.players.add(this);
-                        for(Player p : Server.players)
-                        {
+                        for (Player p : Server.players) {
                             p.Games();
                         }
                     }
-                    catch(NumberFormatException e)
+
+                    if(boardsize == null)
                     {
-                        continue;
+                        return;
+                    }
+                    else if(boardsize.startsWith("CREATE"))
+                    {
+                        String newsize = in.readLine();
+                        status = 1;
+                        try
+                        {
+                            int size = Integer.parseInt(newsize);
+                            out.println("RETURN");
+                            out.println(size);
+                            g = new Game(size,4);
+                            Server.games.add(g);
+                            g.players.add(this);
+                            for(Player p : Server.players)
+                            {
+                                p.Games();
+                            }
+                        }
+                        catch(NumberFormatException e)
+                        {
+                            continue;
+                        }
+                    }
+                }
+
+                if(status == 1)
+                {
+                    if(boardsize.startsWith("CLOSED"))
+                    {
+                        Server.games.get(Server.games.indexOf(g)).players.remove(this);
+                        if(Server.games.get(Server.games.indexOf(g)).players.isEmpty())
+                        {
+                            Server.games.remove(g);
+                        }
+                        g = null;
+                        status = 0;
+                        for(Player p : Server.players)
+                        {
+                            p.Games();
+                            p.out.println("REFRESH");
+                        }
+//                        out.println("REFRESH");
                     }
                 }
             }
