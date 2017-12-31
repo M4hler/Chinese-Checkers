@@ -70,15 +70,20 @@ public class GameBoardPanel extends JPanel
     private void swapTest(FieldButton but)
     {
         if (buttonForTesting == null) {
-            buttonForTesting = but;
+            if(but.getPawn()!=null) {
+                buttonForTesting = but;
+            }
         }
         else
         {
-            if(buttonForTesting == but)
+            if(buttonForTesting.equals(but))
             {
                 buttonForTesting = null;
+                System.out.println("buttons equal");
                 return;
-            }
+            }else if(but.getPawn()!=null){
+                buttonForTesting=but;
+            } else{
             movePawn(buttonForTesting.getCoordinates().getX(), buttonForTesting.getCoordinates().getY(), but.getCoordinates().getX(), but.getCoordinates().getY());
             /*Color c = buttonForTesting.getBackground();
             buttonForTesting.setBackground(but.getBackground());
@@ -89,26 +94,30 @@ public class GameBoardPanel extends JPanel
                     + but.getCoordinates().getY();
             out.println("INCOMING");
             out.println(s);
-            buttonForTesting = null;
+            buttonForTesting = null;}
         }
     }
 
     public void movePawn(int x1, int y1, int x2, int y2) {
-/*        Pawn pawn = board[x1][y1].getPawn();
-        Color c = board[x1][y1].getColor();
-        board[x2][y2].setPawn(pawn);
-        board[x2][y2].colorPawn(pawnColors);
+
+        Pawn pawn = new Pawn(board[x1][y1].getPawn().getColor()); //earlier was referention to the same pawn 
 
         board[x1][y1].setPawn(null);
-        board[x1][y1].colorPawn(pawnColors);*/
-        Pawn pawn = board[x1][y1].getPawn();
+        board[x2][y2].setPawn(pawn);
+
+        board[x1][y1].colorPawn(pawnColors);
+        board[x2][y2].colorPawn(pawnColors);
+
+
+
+        /*Pawn pawn = board[x1][y1].getPawn();
         Color c = board[x1][y1].getColor();
 
         board[x1][y1].setPawn(board[x2][y2].getPawn());
         board[x1][y1].setBackground(board[x2][y2].getColor());
 
         board[x2][y2].setPawn(pawn);
-        board[x2][y2].setBackground(c);
+        board[x1][y2].setBackground(c);*/
     }
 
     void higlight(ArrayList<Point> points) {

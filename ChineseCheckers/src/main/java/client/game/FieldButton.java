@@ -60,6 +60,19 @@ class FieldButton extends JButton{
 
 
     }
+    @Override
+    public boolean equals(Object object)
+    {
+        boolean same = false;
+
+        if (object != null && object instanceof FieldButton)
+        {
+            same = ((this.getCoordinates().getX() == ((FieldButton) object).getCoordinates().getX()) &&
+                    (this.getCoordinates().getY() == ((FieldButton) object).getCoordinates().getY()));
+
+        }
+        return same;
+    }
 
     public Color getColor()
     {
