@@ -13,7 +13,7 @@ public class GameWindow extends JFrame
         opened after connection with server and game starting
         contains gameboardpanel and game optionspanel like pause,chat,save etc
      */
-    private GameBoardPanel panel;
+    public GameBoardPanel panel;
     private JMenuBar jmenubar;
     private JButton startGameButton;
     private JButton passButton;
@@ -39,7 +39,7 @@ public class GameWindow extends JFrame
         this.setJMenuBar(jmenubar);
 
         Controller controller=new Controller();
-        panel = new GameBoardPanel(radius,null,controller);
+        panel = new GameBoardPanel(radius,null,controller, out);
         this.add(panel);
 
         this.addWindowListener(new WindowAdapter() {

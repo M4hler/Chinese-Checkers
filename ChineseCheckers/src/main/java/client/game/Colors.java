@@ -2,7 +2,8 @@ package client.game;
 
 import java.awt.*;
 
-public class Colors {
+public class Colors
+{
     Color pawnYellow;
     Color pawnBlue;
     Color pawnBlack;
@@ -12,7 +13,8 @@ public class Colors {
     Color highlighted;
 
 
-   public Colors(){
+   public Colors()
+   {
         pawnYellow=new Color(255, 153, 0);
         pawnBlue=new Color(0, 0, 102) ;
         pawnBlack=new Color(26, 26, 26);

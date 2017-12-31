@@ -97,7 +97,16 @@ public class Player extends Thread
                             p.Games();
                             p.out.println("REFRESH");
                         }
-//                        out.println("REFRESH");
+                    }
+
+                    if(boardsize.startsWith("INCOMING"))
+                    {
+                        String s = in.readLine();
+                        for(Player p : this.g.players)
+                        {
+                            p.out.println("REGEX");
+                            p.out.println(s);
+                        }
                     }
                 }
             }

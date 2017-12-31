@@ -25,9 +25,11 @@ class FieldButton extends JButton{
     public Pawn getPawn() {
         return pawn;
     }
+
     public void setPawn(Pawn pawn){
         this.pawn=pawn;
     }
+
     public void colorPawn(Colors colors) {
         PlayerColor c;
         if (this.pawn != null) {
@@ -57,6 +59,11 @@ class FieldButton extends JButton{
         }
 
 
+    }
+
+    public Color getColor()
+    {
+        return this.defaultColor;
     }
 
     public void setDefaultColor(Color c){
