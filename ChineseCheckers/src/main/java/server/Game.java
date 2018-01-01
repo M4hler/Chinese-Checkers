@@ -3,6 +3,7 @@ package server;
 
 import gameParts.Field;
 import gameParts.GameboardCreator;
+import gameParts.Pawn;
 import gameParts.Point;
 
 import java.util.ArrayList;
@@ -148,6 +149,7 @@ public class Game
             boolean b=canMove(x1,y1,x2,y2);
             if(b==true)
             {
+                move(x1,y1,x2,y2);
                 sendMessage("move,"+x1+","+y1+","+x2+","+y2); //TODO: TO ALL PLAYERS
                 changeTurn();
             }
@@ -173,5 +175,9 @@ public class Game
     private void changeTurn()
     {
         //TODO: implement (depending on reprezentation of player)
+    }
+    public void move(int x1,int y1,int x2,int y2) {
+        gameboard[x2][y2].addPawn(new Pawn(gameboard[x1][y1].getPawn().getColor()));
+        gameboard[x1][y1].addPawn(null);
     }
 }

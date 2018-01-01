@@ -108,7 +108,7 @@ public class Client implements Port
 			{
 				String size = in.readLine();
 //				GameWindow gw = new GameWindow(Integer.valueOf(size), in, out);
-				window = new GameWindow(Integer.valueOf(size), in, out);
+				window = new GameWindow(Integer.valueOf(size), in, out,6);
 			}
 
 			if(line.startsWith("REGEX"))

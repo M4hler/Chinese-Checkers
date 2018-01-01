@@ -43,6 +43,7 @@ public class GameboardCreator {
         }
     }
     private void initializeTriangles(int numberOfPlayers){
+
         int x,y,c;
         Color color;
         PlayerColor pcolor;
@@ -103,7 +104,9 @@ public class GameboardCreator {
                 for(int j=0;j<i;j++){
                     x+=constants[c].getX();
                     y+=constants[c].getY();
-
+                    if(numberOfPlayers==0){
+                        doesPlay=false;
+                    }
                     if(doesPlay){
                         board[x+2*radius][y+2*radius]=new Field(x,y,color);
                         board[x+2*radius][y+2*radius].addPawn(new Pawn(pcolor));

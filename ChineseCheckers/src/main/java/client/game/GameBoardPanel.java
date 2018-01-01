@@ -17,13 +17,13 @@ public class GameBoardPanel extends JPanel
     Colors pawnColors;
     private PrintWriter out;
 
-    GameBoardPanel(int radius, Color player, Controller controller, PrintWriter out) { //TODO: add player(by color?) to constructor to rotate map
+    GameBoardPanel(int radius, Color player, Controller controller, PrintWriter out, int numberOfPlayers) {
         this.out = out; //it is TEMPORARY! whole in-out logic needs to be moved to the Controller class, this is only for establishing basis board update purposes
 
         controller.addPanel(this);
         this.setLayout(null);
         this.setSize(1000, 1000);
-        Field[][] board = new GameboardCreator(radius,4).getBoard();
+        Field[][] board = new GameboardCreator(radius,numberOfPlayers).getBoard();
         this.player = player;
         pawnColors = new Colors();
 
@@ -56,8 +56,8 @@ public class GameBoardPanel extends JPanel
 
                     b.addActionListener(actionEvent -> {
 //                        System.out.println(" x:" + b.coordinates.getX()+" y: "+b.coordinates.getY());
-                        swapTest(b);
-//                        controller.fieldButtonClicked(b);
+                        //swapTest(b);
+                        controller.fieldButtonClicked(b);
                     });
                     this.board[x][y] = b;
 
@@ -100,24 +100,13 @@ public class GameBoardPanel extends JPanel
 
     public void movePawn(int x1, int y1, int x2, int y2) {
 
-        Pawn pawn = new Pawn(board[x1][y1].getPawn().getColor()); //earlier was referention to the same pawn 
+        Pawn pawn = new Pawn(board[x1][y1].getPawn().getColor()); //earlier was referention to the same pawn
 
         board[x1][y1].setPawn(null);
         board[x2][y2].setPawn(pawn);
 
         board[x1][y1].colorPawn(pawnColors);
         board[x2][y2].colorPawn(pawnColors);
-
-
-
-        /*Pawn pawn = board[x1][y1].getPawn();
-        Color c = board[x1][y1].getColor();
-
-        board[x1][y1].setPawn(board[x2][y2].getPawn());
-        board[x1][y1].setBackground(board[x2][y2].getColor());
-
-        board[x2][y2].setPawn(pawn);
-        board[x1][y2].setBackground(c);*/
     }
 
     void higlight(ArrayList<Point> points) {
@@ -134,7 +123,8 @@ public class GameBoardPanel extends JPanel
         for (Point p : points) {
             x = p.getX();
             y = p.getY();
-            board[x][y].setDefaultBackgroundColor();
+            board[x][y].colorPawn(pawnColors);
+            //board[x][y].setDefaultBackgroundColor();
         }
     }
 }

@@ -21,7 +21,7 @@ public class Colors
         pawnGreen=new Color(0, 77, 0);
         pawnWhite=new Color(191, 191, 191);
         pawnRed=new Color(128, 0, 0);
-        highlighted =new Color(0255, 204, 204);
+        highlighted =new Color(84, 24, 94);
 
     }
 }
