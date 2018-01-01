@@ -39,7 +39,7 @@ public class GameWindow extends JFrame
         this.setJMenuBar(jmenubar);
 
         Controller controller=new DummyController();
-        panel = new GameBoardPanel(radius,null,controller, out,numberOfPlayers);
+        panel = new GameBoardPanel(radius,null,/*controller,*/ out,numberOfPlayers);
         this.add(panel);
 
         this.addWindowListener(new WindowAdapter() {

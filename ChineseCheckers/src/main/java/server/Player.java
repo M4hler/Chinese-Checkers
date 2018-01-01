@@ -104,6 +104,10 @@ public class Player extends Thread
                         String s = in.readLine();
                         for(Player p : this.g.players)
                         {
+                            if(p.equals(this))
+                            {
+                                continue;
+                            }
                             p.out.println("REGEX");
                             p.out.println(s);
                         }
