@@ -21,9 +21,8 @@ public class Game
 
     public Game(int boardSize,int numberOfPlayers)
     {
-        GameboardCreator creator = new GameboardCreator(boardSize,4);
+        GameboardCreator creator = new GameboardCreator(boardSize,numberOfPlayers);
         constants = creator.getConstants();
-        //TODO: gameboard.addPawns(int playersNumber);
         gameboard = creator.getBoard();
         this.boardSize = 4 * boardSize + 1;
         valueNeededForWindowToDrawBoard = boardSize;

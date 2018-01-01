@@ -10,7 +10,7 @@ public class DummyController extends Controller{
     Game g;
     DummyController() {
         super();
-        g=new Game(5,4);
+        g=new Game(5,6);
     }
 
     void fieldButtonClicked(FieldButton b)
