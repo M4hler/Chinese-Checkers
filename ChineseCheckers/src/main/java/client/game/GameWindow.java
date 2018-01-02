@@ -2,6 +2,8 @@ package client.game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -39,8 +41,15 @@ public class GameWindow extends JFrame
         this.setJMenuBar(jmenubar);
 
         Controller controller=new DummyController();
-        panel = new GameBoardPanel(radius,null,/*controller,*/ out,numberOfPlayers);
+        panel = new GameBoardPanel(radius,null,controller, out, in, numberOfPlayers);
         this.add(panel);
+
+        startGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                out.println("START GAME");
+            }
+        });
 
         this.addWindowListener(new WindowAdapter() {
             @Override

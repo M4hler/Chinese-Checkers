@@ -1,10 +1,16 @@
 package server;
 
+import client.game.Colors;
+import gameParts.PlayerColor;
+
+import java.awt.*;
 import java.net.Socket;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Player extends Thread
 {
@@ -14,12 +20,14 @@ public class Player extends Thread
     private PrintWriter out;
     private int status;
     private Game g;
+    private Color color;
 
     public Player(Socket socket)
     {
         this.socket = socket;
         status = 0;
         g = null;
+        color = null;
     }
 
     public void run()
@@ -44,6 +52,18 @@ public class Player extends Thread
                         if (!Server.games.get(Integer.valueOf(input)).players.contains(this)) {
                             Server.games.get(Integer.valueOf(input)).players.add(this);
                             g = Server.games.get(Integer.valueOf(input));
+
+                            for(Player p : this.g.players)
+                            {
+ //                               color = PlayerColor.values()[new Random().nextInt(PlayerColor.values().length)];
+                                color = randomColor();
+                                if(color != p.color)
+                                {
+                                    this.color = color;
+                                    break;
+                                }
+                            }
+
                             out.println("RETURN");
                             out.println(Server.games.get(Integer.valueOf(input)).valueNeededForWindowToDrawBoard);
                         }
@@ -68,6 +88,8 @@ public class Player extends Thread
                             out.println(size);
                             g = new Game(size,4);
                             Server.games.add(g);
+ //                           color = PlayerColor.values()[new Random().nextInt(PlayerColor.values().length)];
+                            color = randomColor();
                             g.players.add(this);
                             for(Player p : Server.players)
                             {
@@ -102,15 +124,24 @@ public class Player extends Thread
                     if(boardsize.startsWith("INCOMING"))
                     {
                         String s = in.readLine();
-                        for(Player p : this.g.players)
+                        String[] regex = s.split(",");
+                        if(this.equals(g.currentPlayer) && this.color == this.g.gameboard[Integer.valueOf(regex[0])][Integer.valueOf(regex[1])].getColor())
                         {
-                            if(p.equals(this))
+                            for(Player p : this.g.players)
                             {
-                                continue;
+                                p.out.println("REGEX");
+                                p.out.println(s);
                             }
-                            p.out.println("REGEX");
-                            p.out.println(s);
+                            g.changeTurn();
                         }
+//                        System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
+                    }
+
+                    if(boardsize.startsWith("START GAME"))
+                    {
+                        Server.games.get(Server.games.indexOf(g)).inProgress = true;
+                        g.setStartingPlayer();
+//                        System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
                     }
                 }
             }
@@ -169,5 +200,18 @@ public class Player extends Thread
 
         }
         return;
+    }
+
+    private Color randomColor()
+    {
+        ArrayList<Color> rc = new ArrayList<>();
+        rc.add(Color.BLUE);
+        rc.add(Color.GREEN);
+        rc.add(Color.GRAY);
+        rc.add(Color.RED);
+        rc.add(Color.WHITE);
+        rc.add(Color.YELLOW);
+        return rc.get(new Random().nextInt(rc.size()));
+        //new Random().nextInt(PlayerColor.values().length)]
     }
 }

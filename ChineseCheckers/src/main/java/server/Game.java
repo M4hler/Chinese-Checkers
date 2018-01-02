@@ -7,12 +7,15 @@ import gameParts.Pawn;
 import gameParts.Point;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game
 {
     public ArrayList<Player> players;
     public Field[][] gameboard;
     public int valueNeededForWindowToDrawBoard; //temporary name
+    public boolean inProgress; //added
+    public Player currentPlayer; //added
 
     private Point constants[];
     public int boardSize;
@@ -28,6 +31,8 @@ public class Game
         valueNeededForWindowToDrawBoard = boardSize;
 
         players = new ArrayList<>();
+        inProgress = false; //added
+        currentPlayer = null; //added
     }
 
 
@@ -171,11 +176,27 @@ public class Game
         //
     }
 
-    private void changeTurn()
+    public void setStartingPlayer()
     {
-        //TODO: implement (depending on reprezentation of player)
+        Random ran = new Random();
+        currentPlayer = players.get(ran.nextInt(players.size()));
     }
-    public void move(int x1,int y1,int x2,int y2) {
+
+    public void changeTurn()
+    {
+        int i = players.indexOf(currentPlayer);
+        if(i == players.size() - 1)
+        {
+            currentPlayer = players.get(0);
+        }
+        else
+        {
+            currentPlayer = players.get(i + 1);
+        }
+    }
+
+    public void move(int x1,int y1,int x2,int y2)
+    {
         gameboard[x2][y2].addPawn(new Pawn(gameboard[x1][y1].getPawn().getColor()));
         gameboard[x1][y1].addPawn(null);
     }

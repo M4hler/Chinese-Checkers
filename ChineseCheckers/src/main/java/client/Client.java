@@ -116,7 +116,6 @@ public class Client implements Port
 				String s = in.readLine();
 				String[] regex = s.split(",");
 //				System.out.println(regex[0] + " " + regex[1] + " " + regex[2] + " " + regex[3]);
-				System.out.println("yyyyyyyyyyyyyyyy");
 				window.panel.movePawn(Integer.valueOf(regex[0]), Integer.valueOf(regex[1]), Integer.valueOf(regex[2]), Integer.valueOf(regex[3]));
 			}
 
