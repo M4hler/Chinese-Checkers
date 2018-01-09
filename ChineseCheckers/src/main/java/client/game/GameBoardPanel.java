@@ -21,14 +21,16 @@ public class GameBoardPanel extends JPanel
     Colors pawnColors;
     private PrintWriter out;
     private BufferedReader in;
+    private Controller controller;
     int size;
 
     GameBoardPanel(int radius, Color player, Controller controller, PrintWriter out, BufferedReader in, int numberOfPlayers)
     {
         this.out = out; //it is TEMPORARY! whole in-out logic needs to be moved to the Controller class, this is only for establishing basis board update purposes
         this.in = in;
+        this.controller = controller;
 
-        controller.addPanel(this);
+//        controller.addPanel(this);
         this.setLayout(null);
         this.setSize(1000, 1000);
         Field[][] board = new GameboardCreator(radius,numberOfPlayers).getBoard();
@@ -62,8 +64,8 @@ public class GameBoardPanel extends JPanel
 
                     b.addActionListener(actionEvent -> {
 //                        System.out.println(" x:" + b.coordinates.getX()+" y: "+b.coordinates.getY());
-                          swapTest(b);
-//                        controller.fieldButtonClicked(b);
+//                          swapTest(b);
+                        controller.fieldButtonClicked(b);
                     });
                     this.board[x][y] = b;
 
@@ -102,8 +104,9 @@ public class GameBoardPanel extends JPanel
                     + buttonForTesting.getCoordinates().getY()
                     + "," + but.getCoordinates().getX() + ","
                     + but.getCoordinates().getY();
-            out.println("INCOMING");
-            out.println(s);
+//            out.println("INCOMING");
+//            out.println(s);
+            controller.makeMove(s);
             buttonForTesting = null;}
         }
     }
@@ -128,7 +131,7 @@ public class GameBoardPanel extends JPanel
         }
     }
 
-    void lowlight(ArrayList<Point> points) {
+    public void lowlight(ArrayList<Point> points) {
         int x, y;
         for (Point p : points) {
             x = p.getX();

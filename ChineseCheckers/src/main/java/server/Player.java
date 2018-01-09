@@ -64,11 +64,12 @@ public class Player extends Thread
                                 }
                             }
 
-                            out.println("RETURN");
+                            out.println("NEW GAME WINDOW");
                             out.println(Server.games.get(Integer.valueOf(input)).valueNeededForWindowToDrawBoard);
                         }
 
-                        for (Player p : Server.players) {
+                        for (Player p : Server.players)
+                        {
                             p.Games();
                         }
                     }
@@ -84,7 +85,8 @@ public class Player extends Thread
                         try
                         {
                             int size = Integer.parseInt(newsize);
-                            out.println("RETURN");
+//                            out.println("RESET"); //RETURN
+                            out.println("GAME");
                             out.println(size);
                             g = new Game(size,4);
                             Server.games.add(g);
@@ -105,7 +107,7 @@ public class Player extends Thread
 
                 if(status == 1)
                 {
-                    if(boardsize.startsWith("CLOSED"))
+                    if(boardsize.startsWith("CLOSE GAME"))
                     {
                         Server.games.get(Server.games.indexOf(g)).players.remove(this);
                         if(Server.games.get(Server.games.indexOf(g)).players.isEmpty())
@@ -121,7 +123,7 @@ public class Player extends Thread
                         }
                     }
 
-                    if(boardsize.startsWith("INCOMING"))
+                    if(boardsize.startsWith("MOVE"))
                     {
                         String s = in.readLine();
                         String[] regex = s.split(",");
@@ -134,14 +136,14 @@ public class Player extends Thread
                             }
                             g.changeTurn();
                         }
-//                        System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
+                        System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
                     }
 
                     if(boardsize.startsWith("START GAME"))
                     {
                         Server.games.get(Server.games.indexOf(g)).inProgress = true;
                         g.setStartingPlayer();
-//                        System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
+                        System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
                     }
                 }
             }
@@ -158,17 +160,17 @@ public class Player extends Thread
 
     public void Games()
     {
-        out.println("START");
+        out.println("RESET"); //START
         for(Game g : Server.games)
         {
-            out.println("GAMES");
+            out.println("NEW GAME"); //GAMES
             for(Player p : g.players)
             {
                 out.println(p.name);
             }
-            out.println("NEXT");
+            out.println("STOP"); //NEXT
         }
-        out.println("NOMORE");
+//        out.println("NOMORE");
         return;
     }
 
@@ -188,7 +190,7 @@ public class Player extends Thread
                 {
                     if (!Server.names.contains(name))
                     {
-                        out.println("NAMEACCEPTED");
+                        out.println("NAME ACCEPTED");
                         Server.names.add(name);
                         break;
                     }

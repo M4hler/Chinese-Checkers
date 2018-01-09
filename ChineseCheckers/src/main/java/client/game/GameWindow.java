@@ -21,11 +21,13 @@ public class GameWindow extends JFrame
     private JButton passButton;
     private BufferedReader in;
     private PrintWriter out;
+    private Controller controller;
 
-    public GameWindow(int radius, BufferedReader in, PrintWriter out,int numberOfPlayers/*, Controller controller, Color player*/)
+    public GameWindow(int radius, BufferedReader in, PrintWriter out,int numberOfPlayers, Controller controller/*, Color player*/)
     {
         this.in = in;
         this.out = out;
+        this.controller = controller;
 
         this.setResizable(false);
         this.setSize(1000,1000);
@@ -40,14 +42,16 @@ public class GameWindow extends JFrame
         jmenubar.add(passButton);
         this.setJMenuBar(jmenubar);
 
-        Controller controller=new DummyController();
+//        Controller controller=new DummyController();
         panel = new GameBoardPanel(radius,null,controller, out, in, numberOfPlayers);
         this.add(panel);
+        controller.addPanel(panel);
 
         startGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                out.println("START GAME");
+//                out.println("START GAME");
+                controller.startGame();
             }
         });
 
@@ -55,7 +59,7 @@ public class GameWindow extends JFrame
             @Override
             public void windowClosing(WindowEvent e)
             {
-                out.println("CLOSED");
+                controller.closeGame();
                 super.windowClosing(e);
             }
         });

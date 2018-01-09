@@ -16,7 +16,7 @@ public class GameBoardPanelTest {
 
     @Test
     public void test(){
-        GameWindow w = new GameWindow(5, null, null,6/*,null ,Color.red */);
+        GameWindow w = new GameWindow(5, null, null,6,null /*,Color.red */);
         while(true);
     }
     @After

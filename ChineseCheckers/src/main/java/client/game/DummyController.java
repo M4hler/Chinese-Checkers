@@ -1,5 +1,6 @@
 package client.game;
 
+import client.Client;
 import gameParts.Point;
 import server.Game;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 public class DummyController extends Controller{
     Game g;
     DummyController() {
-        super();
+        super(new Client());
         g=new Game(5,6);
     }
 

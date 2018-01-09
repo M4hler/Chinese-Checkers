@@ -1,33 +1,186 @@
 package client.game;
 
+import client.Client;
 import gameParts.Point;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 
-public class Controller {
+public class Controller
+{
     GameBoardPanel panel;
     FieldButton lastClicked;
     ArrayList<Point> highlighted;
+    Client client;
 
-    Controller(){
+    private String serverAddress;
+    public BufferedReader input;
+    public PrintWriter output;
+
+    public Controller(Client myclient)
+    {
         lastClicked = null;
         highlighted = null;
+        panel = null;
+        client = myclient;
+
+        serverAddress = client.setServerAddress();
+        try
+        {
+            Socket socket = new Socket(serverAddress, 8080);
+            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            output = new PrintWriter(socket.getOutputStream(), true);
+        }
+        catch(IOException e)
+        {
+
+        }
+        setName();
+//        client.frame.setVisible(true);
+//        run();
     }
 
-    public void addPanel(GameBoardPanel panel){ this.panel=panel;}
+    public void createGame(String s)
+    {
+        output.println("CREATE");
+        output.println(s);
+    }
+
+    public void joinGame(int index)
+    {
+        output.println("JOIN GAME");
+        output.println(index);
+    }
+
+    public void makeMove(String s)
+    {
+        output.println("MOVE");
+        output.println(s);
+    }
+
+    public void run()
+    {
+        while(true)
+        {
+            try
+            {
+                String line = input.readLine();
+
+                if(line.equals("RESET"))
+                {
+                    client.clearLobby();
+//                    String newline = input.readLine();
+                }
+                else if(line.equals("NEW GAME WINDOW"))
+                {
+                    String newline = input.readLine();
+                    client.drawWindow(newline);
+                }
+                else if(line.equals("GAME"))
+                {
+                    client.clearLobby();
+                    String newline = input.readLine();
+                    client.drawWindow(newline);
+                }
+                else if(line.equals("NEW GAME"))
+                {
+                    ArrayList<String> players = collectInformationAboutGame();
+                    client.refreshLobby(players);
+                }
+                else if(line.equals("REFRESH"))
+                {
+                    client.refresh();
+                }
+                else if(line.equals("REGEX"))
+                {
+                    String newline = input.readLine();
+                    client.move(newline);
+                }
+            }
+            catch(IOException e)
+            {
+
+            }
+        }
+    }
+
+    public ArrayList<String> collectInformationAboutGame()
+    {
+        ArrayList<String> players = new ArrayList<>();
+        try
+        {
+            String line = input.readLine();
+            while(!line.equals("STOP"))
+            {
+                players.add(line);
+                line = input.readLine();
+            }
+            return players;
+        }
+        catch(IOException e)
+        {
+
+        }
+        return players;
+    }
+
+    public void startGame()
+    {
+        output.println("START GAME");
+    }
+
+    public void closeGame()
+    {
+        output.println("CLOSE GAME");
+    }
+
+    public void setName()
+    {
+        while(true)
+        {
+            try
+            {
+                String line = input.readLine();
+                if(line.equals("SUBMITNAME"))
+                {
+                    output.println(client.getName());
+                }
+                else if(line.equals("NAME ACCEPTED"))
+                {
+                    break;
+                }
+            }
+            catch(IOException e)
+            {
+
+            }
+        }
+    }
+
+    public void addPanel(GameBoardPanel panel)
+    {
+        this.panel=panel;
+    }
 
     public void highlight(ArrayList<Point> array)
     {
         highlighted=array;
         panel.higlight(array);
     }
+
     public void lowlight()
     {
-        if(highlighted.size()!=0){
+/*        if(highlighted.size()!=0)
+        {
             panel.lowlight(highlighted);
             highlighted.clear();
-        }
+        }*/
     }
+
     public void doMove(int x1,int y1,int x2,int y2)
     {
         lowlight();
@@ -54,14 +207,17 @@ public class Controller {
                 int y1 = lastClicked.getCoordinates().getY();
                 int x2 = b.getCoordinates().getX();
                 int y2 = b.getCoordinates().getY();
-                lowlight();
+//                lowlight();
                 sendToServer("canMove," + x1 + "," + y1 + "," + x2 + "," + y2);
+                String s = x1 + "," + y1 + "," + x2 + "," + y2;
+                makeMove(s);
                 //if can move, if cant lowlight and null
             }
         }
     }
 
-    void endTurn(){
+    void endTurn()
+    {
         sendToServer("end");
     }
 
