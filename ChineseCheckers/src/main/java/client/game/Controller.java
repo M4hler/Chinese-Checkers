@@ -174,7 +174,7 @@ public class Controller
     public void highlight(ArrayList<Point> array)
     {
         highlighted=array;
-        panel.higlight(array);
+        panel.highlight(array);
     }
 
     public void lowlight()
@@ -197,7 +197,7 @@ public class Controller
         if (lastClicked == null) {
             if (b.getPawn() != null) {
                 lastClicked = b;
-                sendToServer("getMoves," + b.getCoordinates().getX() + "," + b.getCoordinates().getY());
+                sendToServer("getMoves," + b.getx() + "," + b.gety());
             }
         } else {
             if (lastClicked.equals(b)) {
@@ -206,13 +206,13 @@ public class Controller
             } else if (b.getPawn() != null) {
                 lastClicked = b;
                 //lowlight
-                sendToServer("getMoves,"+b.getCoordinates().getX()+","+b.getCoordinates().getY());
+                //sendToServer("getMoves,"+b.getCoordinates().getx()+","+b.getCoordinates().gety());
             } else {
-                int x1 = lastClicked.getCoordinates().getX();
-                int y1 = lastClicked.getCoordinates().getY();
-                int x2 = b.getCoordinates().getX();
-                int y2 = b.getCoordinates().getY();
-                lowlight();
+                int x1 = lastClicked.getx();
+                int y1 = lastClicked.gety();
+                int x2 = b.getx();
+                int y2 = b.gety();
+//                lowlight();
                 sendToServer("canMove," + x1 + "," + y1 + "," + x2 + "," + y2);
                 //if can move, if cant lowlight and null
             }

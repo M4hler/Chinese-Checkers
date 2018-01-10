@@ -43,7 +43,7 @@ public class AI {
         end=null;
     }
 
-    public void findLongestMove(Point given){
+    private void findLongestMove(Point given){
         ArrayList<Point> possibleMoves=game.returnPossibleMoves(given.getX(),given.getY());
 
         for(Point p:possibleMoves){

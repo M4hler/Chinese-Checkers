@@ -20,7 +20,7 @@ public class DummyController extends Controller{
             if (b.getPawn() != null) {
                 lastClicked = b;
                 //sendToServer("getMoves," + b.getCoordinates().getX() + "," + b.getCoordinates().getY());
-                highlighted=g.returnPossibleMoves(b.getCoordinates().getX(),b.getCoordinates().getY());
+                highlighted=g.returnPossibleMoves(b.getX(),b.getY());
                 highlight(highlighted);
             }
         } else {
@@ -37,10 +37,10 @@ public class DummyController extends Controller{
                 //lowlight
                 //sendToServer("getMoves,"+b.getCoordinates().getX()+","+b.getCoordinates().getY());
             } else {
-                int x1 = lastClicked.getCoordinates().getX();
-                int y1 = lastClicked.getCoordinates().getY();
-                int x2 = b.getCoordinates().getX();
-                int y2 = b.getCoordinates().getY();
+                int x1 = lastClicked.getX();
+                int y1 = lastClicked.getY();
+                int x2 = b.getX();
+                int y2 = b.getY();
                 lowlight();
                 boolean bool= g.canMove(x1,y1,x2,y2);
                 if(bool){
