@@ -55,7 +55,7 @@ public class GameBoardPanel extends JPanel
                     b.colorPawn(colors);
 
                     b.addActionListener(actionEvent -> {
-//                        System.out.println(" x:" + b.coordinates.getX()+" y: "+b.coordinates.getY());
+//                        System.out.println(" x:" + b.coordinates.getx()+" y: "+b.coordinates.gety());
                         controller.fieldButtonClicked(b);
                     });
 
@@ -64,6 +64,7 @@ public class GameBoardPanel extends JPanel
                 }
             }
         }
+        this.repaint();
     }
 
     public void movePawn(int x1, int y1, int x2, int y2)

@@ -19,13 +19,11 @@ class FieldButton extends JButton{
         this.y=y;
     }
 
-    @Override
-    public int getX() {
+    public int getx() {
         return x;
     }
 
-    @Override
-    public int getY() {
+    public int gety() {
         return y;
     }
 
