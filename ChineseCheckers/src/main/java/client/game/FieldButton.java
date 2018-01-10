@@ -9,17 +9,24 @@ import javax.swing.*;
 import java.awt.*;
 
 class FieldButton extends JButton{
-    private Point coordinates;
+    private int x,y;
     private Pawn pawn;
     private Color defaultColor;
 
-    FieldButton(Point point){
+    FieldButton(int x,int y){
         super();
-        coordinates=point;
+        this.x=x;
+        this.y=y;
     }
 
-    public Point getCoordinates() {
-        return coordinates;
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
     }
 
     public Pawn getPawn() {
@@ -67,8 +74,8 @@ class FieldButton extends JButton{
 
         if (object != null && object instanceof FieldButton)
         {
-            same = ((this.getCoordinates().getX() == ((FieldButton) object).getCoordinates().getX()) &&
-                    (this.getCoordinates().getY() == ((FieldButton) object).getCoordinates().getY()));
+            same = ((this.x == ((FieldButton) object).getX()) &&
+                    (this.y == ((FieldButton) object).getY()));
 
         }
         return same;

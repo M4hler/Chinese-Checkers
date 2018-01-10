@@ -1,5 +1,7 @@
 package client.game;
 
+import gameParts.PlayerColor;
+
 import java.awt.*;
 
 public class Colors
@@ -11,6 +13,7 @@ public class Colors
     Color pawnWhite;
     Color pawnRed;
     Color highlighted;
+    Color field;
 
 
    public Colors()
@@ -22,6 +25,25 @@ public class Colors
         pawnWhite=new Color(191, 191, 191);
         pawnRed=new Color(128, 0, 0);
         highlighted =new Color(84, 24, 94);
-
+        field=Color.GRAY;
+       pawnYellow=Color.YELLOW;
+       pawnBlue=Color.blue;
+       pawnBlack=Color.BLACK;
+       pawnGreen=Color.GREEN;
+       pawnWhite=Color.WHITE;
+       pawnRed=Color.RED;
     }
+
+    public Color getFieldColor(PlayerColor p){
+        switch (p){
+            case BLACK:return pawnBlack;
+            case BLUE:return pawnBlue;
+            case GREEN:return pawnGreen;
+            case RED:return pawnRed;
+            case WHITE:return pawnWhite;
+            default:return pawnYellow;
+        }
+    }
+
+
 }

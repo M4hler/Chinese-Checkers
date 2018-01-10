@@ -1,7 +1,5 @@
 package gameParts;
 
-import server.Player;
-
 import java.awt.*;
 public class GameboardCreator {
     private Point constants[];
@@ -29,7 +27,7 @@ public class GameboardCreator {
     }
     private void initializeMidField() {
         int x, y;
-        board[2*radius][2*radius]=new Field(new Point(0,0),null); //middle point init
+        board[2*radius][2*radius]=new Field(0,0,null); //middle point init
         for (int i = 1; i <= this.radius; i++) {
             x = -i;
             y = 0; //starting point, running circles with constants
@@ -108,10 +106,10 @@ public class GameboardCreator {
                         doesPlay=false;
                     }
                     if(doesPlay){
-                        board[x+2*radius][y+2*radius]=new Field(x,y,color);
-                        board[x+2*radius][y+2*radius].addPawn(new Pawn(pcolor));
+                        board[x+2*radius][y+2*radius]=new Field(x,y,pcolor);
+                        board[x+2*radius][y+2*radius].setPawn(new Pawn(pcolor));
                     }else{
-                        board[x+2*radius][y+2*radius]=new Field(x,y,Color.gray);
+                        board[x+2*radius][y+2*radius]=new Field(x,y,null);
                     }
                 }
 

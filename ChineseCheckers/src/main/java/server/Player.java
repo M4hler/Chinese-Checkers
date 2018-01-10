@@ -20,7 +20,7 @@ public class Player extends Thread
     private PrintWriter out;
     private int status;
     private Game g;
-    private Color color;
+    private PlayerColor color;
 
     public Player(Socket socket)
     {
@@ -127,7 +127,7 @@ public class Player extends Thread
                     {
                         String s = in.readLine();
                         String[] regex = s.split(",");
-                        if(this.equals(g.currentPlayer) && this.color == this.g.gameboard[Integer.valueOf(regex[0])][Integer.valueOf(regex[1])].getColor())
+                        if(this.equals(g.currentPlayer) && this.color == this.g.gameboard[Integer.valueOf(regex[0])][Integer.valueOf(regex[1])].getPawn().getColor())
                         {
                             for(Player p : this.g.players)
                             {
@@ -204,15 +204,19 @@ public class Player extends Thread
         return;
     }
 
-    private Color randomColor()
+    public PlayerColor getColor() {
+        return color;
+    }
+
+    private PlayerColor randomColor()
     {
-        ArrayList<Color> rc = new ArrayList<>();
-        rc.add(Color.BLUE);
-        rc.add(Color.GREEN);
-        rc.add(Color.GRAY);
-        rc.add(Color.RED);
-        rc.add(Color.WHITE);
-        rc.add(Color.YELLOW);
+        ArrayList<PlayerColor> rc = new ArrayList<>();
+        rc.add(PlayerColor.BLUE);
+        rc.add(PlayerColor.GREEN);
+        rc.add(PlayerColor.BLACK);
+        rc.add(PlayerColor.RED);
+        rc.add(PlayerColor.WHITE);
+        rc.add(PlayerColor.YELLOW);
         return rc.get(new Random().nextInt(rc.size()));
         //new Random().nextInt(PlayerColor.values().length)]
     }

@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import server.Game;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -21,11 +20,11 @@ public class GameLogicMethodsTests {
     public void setUp(){
         game = new Game(2,0);
         p=null;
-        game.gameboard[3][5].addPawn(new Pawn(PlayerColor.WHITE));
-        game.gameboard[5][3].addPawn(new Pawn(PlayerColor.WHITE));
-        game.gameboard[3][6].addPawn(new Pawn(PlayerColor.WHITE));
-        game.gameboard[4][6].addPawn(new Pawn(PlayerColor.WHITE));
-        game.gameboard[2][7].addPawn(new Pawn(PlayerColor.WHITE));
+        game.gameboard[3][5].setPawn(new Pawn(PlayerColor.WHITE));
+        game.gameboard[5][3].setPawn(new Pawn(PlayerColor.WHITE));
+        game.gameboard[3][6].setPawn(new Pawn(PlayerColor.WHITE));
+        game.gameboard[4][6].setPawn(new Pawn(PlayerColor.WHITE));
+        game.gameboard[2][7].setPawn(new Pawn(PlayerColor.WHITE));
     }
     @Test
     public  void returnTest(){
