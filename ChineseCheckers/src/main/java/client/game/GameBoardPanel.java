@@ -106,7 +106,7 @@ public class GameBoardPanel extends JPanel
                     + but.getCoordinates().getY();
 //            out.println("INCOMING");
 //            out.println(s);
-            controller.makeMove(s);
+//            controller.makeMove(s);
             buttonForTesting = null;}
         }
     }

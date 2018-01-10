@@ -123,7 +123,7 @@ public class Player extends Thread
                         }
                     }
 
-                    if(boardsize.startsWith("MOVE"))
+/*                    if(boardsize.startsWith("MOVE"))
                     {
                         String s = in.readLine();
                         String[] regex = s.split(",");
@@ -137,13 +137,18 @@ public class Player extends Thread
                             g.changeTurn();
                         }
                         System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
-                    }
+                    }*/
 
                     if(boardsize.startsWith("START GAME"))
                     {
                         Server.games.get(Server.games.indexOf(g)).inProgress = true;
                         g.setStartingPlayer();
                         System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
+                    }
+
+                    if(boardsize.startsWith("getMoves") || boardsize.startsWith("canMove"))
+                    {
+                        g.decodeMessage(boardsize);
                     }
                 }
             }
@@ -156,6 +161,12 @@ public class Player extends Thread
         {
             Server.names.remove(name);
         }
+    }
+
+    public void returnMessage(String s)
+    {
+        out.println("TEST");
+        out.println(s);
     }
 
     public void Games()

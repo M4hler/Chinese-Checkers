@@ -140,6 +140,7 @@ public class Game
             for(Point point: p){
                 array=array+","+point.getX()+","+point.getY();
             }
+            array += ",end";
             sendMessage(array); //sending fileds where player can move
 
         }
@@ -154,7 +155,12 @@ public class Game
             if(b==true)
             {
                 move(x1,y1,x2,y2);
-                sendMessage("move,"+x1+","+y1+","+x2+","+y2); //TODO: TO ALL PLAYERS
+                for(Player p : players)
+                {
+//                    sendMessage("move,"+x1+","+y1+","+x2+","+y2); //TODO: TO ALL PLAYERS
+                    p.returnMessage("move,"+x1+","+y1+","+x2+","+y2);
+                }
+
                 changeTurn();
             }
             else
@@ -170,10 +176,7 @@ public class Game
 
     void sendMessage(String message)
     {
-        //if(starts with move send to all? ?
-        //
-        //
-        //
+        currentPlayer.returnMessage(message);
     }
 
     public void setStartingPlayer()

@@ -56,11 +56,11 @@ public class Controller
         output.println(index);
     }
 
-    public void makeMove(String s)
+/*    public void makeMove(String s)
     {
         output.println("MOVE");
         output.println(s);
-    }
+    }*/
 
     public void run()
     {
@@ -95,10 +95,15 @@ public class Controller
                 {
                     client.refresh();
                 }
-                else if(line.equals("REGEX"))
+/*                else if(line.equals("REGEX"))
                 {
                     String newline = input.readLine();
                     client.move(newline);
+                }*/
+                else if(line.equals("TEST")) //added
+                {
+                    String newline = input.readLine();
+                    decodeMessage(newline);
                 }
             }
             catch(IOException e)
@@ -174,11 +179,11 @@ public class Controller
 
     public void lowlight()
     {
-/*        if(highlighted.size()!=0)
+        if(highlighted.size()!=0)
         {
             panel.lowlight(highlighted);
             highlighted.clear();
-        }*/
+        }
     }
 
     public void doMove(int x1,int y1,int x2,int y2)
@@ -201,16 +206,14 @@ public class Controller
             } else if (b.getPawn() != null) {
                 lastClicked = b;
                 //lowlight
-                //sendToServer("getMoves,"+b.getCoordinates().getX()+","+b.getCoordinates().getY());
+                sendToServer("getMoves,"+b.getCoordinates().getX()+","+b.getCoordinates().getY());
             } else {
                 int x1 = lastClicked.getCoordinates().getX();
                 int y1 = lastClicked.getCoordinates().getY();
                 int x2 = b.getCoordinates().getX();
                 int y2 = b.getCoordinates().getY();
-//                lowlight();
+                lowlight();
                 sendToServer("canMove," + x1 + "," + y1 + "," + x2 + "," + y2);
-                String s = x1 + "," + y1 + "," + x2 + "," + y2;
-                makeMove(s);
                 //if can move, if cant lowlight and null
             }
         }
@@ -223,10 +226,7 @@ public class Controller
 
     void sendToServer(String code)
     {
-        //
-        //
-        //
-        //
+        output.println(code);
     }
 
     void decodeMessage(String message)
