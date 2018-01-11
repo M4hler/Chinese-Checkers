@@ -118,12 +118,13 @@ public class Player extends Thread
                     {
                         Server.getConcreteGame(Server.getIndexOfGame(g)).inProgress = true;
                         g.setStartingPlayer();
-                        System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
+                        //System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
+                        g.refreshCurrentPlayerView();
                     }
                     else if(command.startsWith("getMoves") || command.startsWith("canMove"))
                     {
-                        System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
-                        if(g.currentPlayer == this)
+                        //System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
+                        if(g.getPlayerByColor(g.currentPlayer) == this)
                         {
                             g.decodeMessage(command);
                         }

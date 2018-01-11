@@ -97,6 +97,7 @@ public class Client implements Port
 	{
 		int i = Integer.valueOf(number);
 		window = new GameWindow(Integer.valueOf(size), /*in, out,*/ i, controller);
+		frame.setVisible(false);
 	}
 
 	public void move(String s)
