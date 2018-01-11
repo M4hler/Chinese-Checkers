@@ -5,6 +5,7 @@ import gameParts.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
 
 public class Game
@@ -144,12 +145,13 @@ public class Game
     {
         if(gameboard[x1][y1].getColor()==null&&gameboard[x2][y2]!=null) {
             if (gameboard[x2][y2].getColor() == getEnemyColor(gameboard[x1][y1].getPawn().getColor())) {
-                PlayerColor key=gameboard[x1][y2].getPawn().getColor();
+                PlayerColor key=gameboard[x1][y1].getPawn().getColor();
                 int val = score.get(key);
                 val--;
                 score.replace(key,val);
                 if(val==0){
                     //TODO: sth happens, someone won
+                    System.out.print("WINNER");
                 }
             }
         }
@@ -204,17 +206,23 @@ public class Game
                 }
             }
         }
+
         //deletes moves that allows to get out from enemy's triangle (Its forbidden by rules)
-        /*if(gameboard[x][y].getColor()!=null){
-            if(gameboard[x][y].getColor()==getEnemyColor(currentPlayer.getColor())){
-                PlayerColor c = getEnemyColor(currentPlayer.getColor());
-                for(Point p: possibleMoves){
-                    if(gameboard[p.getY()][p.getY()].getColor()!=c){
-                        possibleMoves.remove(p);
-                    }
+        if(gameboard[x][y].getColor()!=null){
+            if(gameboard[x][y].getColor()==getEnemyColor(gameboard[x][y].getPawn().getColor())) {
+
+                PlayerColor c = getEnemyColor(gameboard[x][y].getPawn().getColor());
+
+                Iterator<Point> iter = possibleMoves.iterator();
+                while (iter.hasNext()) {
+                    Point p = iter.next();
+
+                    if (gameboard[p.getX()][p.getY()].getColor() != c)
+                        iter.remove();
                 }
+
             }
-        }*/
+        }
         return possibleMoves;
     }
 
