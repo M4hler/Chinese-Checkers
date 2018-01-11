@@ -13,6 +13,7 @@ public class Game
     public int valueNeededForWindowToDrawBoard; //temporary name
     public boolean inProgress; //added
     public Player currentPlayer; //added
+    public int numberOfPlayers;
 
     private Point constants[];
     public int boardSize;
@@ -25,6 +26,7 @@ public class Game
         constants = creator.getConstants();
         gameboard = creator.getBoard();
         this.boardSize = 4 * boardSize + 1;
+        this.numberOfPlayers = numberOfPlayers;
         valueNeededForWindowToDrawBoard = boardSize;
 
         players = new ArrayList<>();

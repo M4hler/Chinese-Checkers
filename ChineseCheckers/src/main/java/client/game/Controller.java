@@ -3,6 +3,7 @@ package client.game;
 import client.Client;
 import gameParts.Point;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -46,8 +47,24 @@ public class Controller
 
     public void createGame(String s)
     {
+        int i;
+        while(true)
+        {
+            try
+            {
+                String playersNumber = getNumberOfPlayers();
+                i = Integer.valueOf(playersNumber);
+            }
+            catch(NumberFormatException e)
+            {
+                continue;
+            }
+            break;
+        }
+
         output.println("CREATE");
         output.println(s);
+        output.println(i);
     }
 
     public void joinGame(int index)
@@ -55,12 +72,6 @@ public class Controller
         output.println("JOIN GAME");
         output.println(index);
     }
-
-/*    public void makeMove(String s)
-    {
-        output.println("MOVE");
-        output.println(s);
-    }*/
 
     public void run()
     {
@@ -73,18 +84,19 @@ public class Controller
                 if(line.equals("RESET"))
                 {
                     client.clearLobby();
-//                    String newline = input.readLine();
                 }
                 else if(line.equals("NEW GAME WINDOW"))
                 {
                     String newline = input.readLine();
-                    client.drawWindow(newline);
+                    String number = input.readLine();
+                    client.drawWindow(newline, number);
                 }
                 else if(line.equals("GAME"))
                 {
                     client.clearLobby();
                     String newline = input.readLine();
-                    client.drawWindow(newline);
+                    String number = input.readLine();
+                    client.drawWindow(newline, number);
                 }
                 else if(line.equals("NEW GAME"))
                 {
@@ -95,11 +107,6 @@ public class Controller
                 {
                     client.refresh();
                 }
-/*                else if(line.equals("REGEX"))
-                {
-                    String newline = input.readLine();
-                    client.move(newline);
-                }*/
                 else if(line.equals("TEST")) //added
                 {
                     String newline = input.readLine();
@@ -131,6 +138,15 @@ public class Controller
 
         }
         return players;
+    }
+
+    public String getNumberOfPlayers()
+    {
+        return JOptionPane.showInputDialog(
+                client.frame,
+                "Give number of players:",
+                "Number of players",
+                JOptionPane.PLAIN_MESSAGE);
     }
 
     public void startGame()

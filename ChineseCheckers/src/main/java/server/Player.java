@@ -55,7 +55,6 @@ public class Player extends Thread
 
                             for(Player p : this.g.players)
                             {
- //                               color = PlayerColor.values()[new Random().nextInt(PlayerColor.values().length)];
                                 color = randomColor();
                                 if(color != p.color)
                                 {
@@ -66,6 +65,7 @@ public class Player extends Thread
 
                             out.println("NEW GAME WINDOW");
                             out.println(Server.games.get(Integer.valueOf(input)).valueNeededForWindowToDrawBoard);
+                            out.println(Server.games.get(Integer.valueOf(input)).numberOfPlayers);
                         }
 
                         for (Player p : Server.players)
@@ -81,16 +81,16 @@ public class Player extends Thread
                     else if(boardsize.startsWith("CREATE"))
                     {
                         String newsize = in.readLine();
+                        int numberOfPlayers = Integer.valueOf(in.readLine());
                         status = 1;
                         try
                         {
                             int size = Integer.parseInt(newsize);
-//                            out.println("RESET"); //RETURN
                             out.println("GAME");
                             out.println(size);
-                            g = new Game(size,4);
+                            out.println(numberOfPlayers);
+                            g = new Game(size,numberOfPlayers);
                             Server.games.add(g);
- //                           color = PlayerColor.values()[new Random().nextInt(PlayerColor.values().length)];
                             color = randomColor();
                             g.players.add(this);
                             for(Player p : Server.players)
@@ -171,17 +171,16 @@ public class Player extends Thread
 
     public void Games()
     {
-        out.println("RESET"); //START
+        out.println("RESET");
         for(Game g : Server.games)
         {
-            out.println("NEW GAME"); //GAMES
+            out.println("NEW GAME");
             for(Player p : g.players)
             {
                 out.println(p.name);
             }
-            out.println("STOP"); //NEXT
+            out.println("STOP");
         }
-//        out.println("NOMORE");
         return;
     }
 
@@ -229,6 +228,5 @@ public class Player extends Thread
         rc.add(PlayerColor.WHITE);
         rc.add(PlayerColor.YELLOW);
         return rc.get(new Random().nextInt(rc.size()));
-        //new Random().nextInt(PlayerColor.values().length)]
     }
 }
