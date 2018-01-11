@@ -1,48 +1,18 @@
 package server;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public class Server implements Port
+public class DummyServer
 {
     public static ArrayList<String> names;
-    private static  ArrayList<Game> games;
-    private static ArrayList<Player> players;
+    public static  ArrayList<Game> games;
+    public static ArrayList<Player> players;
 
-    private Server() throws IOException
+    public DummyServer()
     {
-        ServerSocket listener = new ServerSocket(8080); //PORT is in use
-        InetAddress  ip;
         names = new ArrayList<>();
-        players = new ArrayList<>();
         games = new ArrayList<>();
-
-        try
-        {
-            ip = InetAddress.getLocalHost();
-            System.out.println("Current IP address : " + ip.getHostAddress());
-        }
-        catch (UnknownHostException e)
-        {
-            e.printStackTrace();
-        }
-
-        try
-        {
-            while(true)
-            {
-                Player player = new Player(listener.accept());
-                player.start();
-                players.add(player);
-            }
-        }
-        finally
-        {
-            listener.close();
-        }
+        players = new ArrayList<>();
     }
 
     public static ArrayList<Player> getAllPlayers()
@@ -103,10 +73,5 @@ public class Server implements Port
     public static void removeName(String name)
     {
         names.remove(name);
-    }
-
-    public static void main(String[] args) throws IOException
-    {
-        Server server = new Server();
     }
 }

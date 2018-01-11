@@ -100,8 +100,8 @@ public class Player extends Thread
                 {
                     if(command.startsWith("CLOSE GAME"))
                     {
-                        Server.removePlayerFromGame(Server.getIndexOfgame(g), this);
-                        if(Server.getPlayersFromConcreteGame(Server.getIndexOfgame(g)).isEmpty())
+                        Server.removePlayerFromGame(Server.getIndexOfGame(g), this);
+                        if(Server.getPlayersFromConcreteGame(Server.getIndexOfGame(g)).isEmpty())
                         {
                             Server.removeGame(g);
                         }
@@ -116,7 +116,7 @@ public class Player extends Thread
                     }
                     else if(command.startsWith("START GAME"))
                     {
-                        Server.getConcreteGame(Server.getIndexOfgame(g)).inProgress = true;
+                        Server.getConcreteGame(Server.getIndexOfGame(g)).inProgress = true;
                         g.setStartingPlayer();
                         System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
                     }
