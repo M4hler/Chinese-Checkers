@@ -128,6 +128,16 @@ public class Game
         currentPlayer.returnMessage(message);
     }
 
+    public void addPlayer(Player player)
+    {
+        players.add(player);
+    }
+
+    public void getPlayers()
+    {
+
+    }
+
     void setStartingPlayer()
     {
         Random ran = new Random();
@@ -165,13 +175,6 @@ public class Game
         gameboard[x1][y1].setPawn(null);
 
     }
-
-
-
-
-
-
-
 
     //returns an arraylist, that contains all fields allowed to move from field[x][y]
     public ArrayList<Point> returnPossibleMoves(int x, int y)

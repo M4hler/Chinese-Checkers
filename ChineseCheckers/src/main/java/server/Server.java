@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class Server implements Port
 {
     public static ArrayList<String> names;
-    public static  ArrayList<Game> games;
-    public static ArrayList<Player> players;
+    private static  ArrayList<Game> games;
+    private static ArrayList<Player> players;
 
     private Server() throws IOException
     {
@@ -43,6 +43,66 @@ public class Server implements Port
         {
             listener.close();
         }
+    }
+
+    public static ArrayList<Player> getAllPlayers()
+    {
+        return players;
+    }
+
+    public static void addGame(Game game)
+    {
+        games.add(game);
+    }
+
+    public static void removeGame(Game game)
+    {
+        games.remove(game);
+    }
+
+    public static Game getConcreteGame(int index)
+    {
+        return games.get(index);
+    }
+
+    public static void removePlayerFromGame(int index, Player player)
+    {
+        games.get(index).players.remove(player);
+    }
+
+    public static int getIndexOfgame(Game game)
+    {
+        return games.indexOf(game);
+    }
+
+    public static ArrayList<Game> getAllGames()
+    {
+        return games;
+    }
+
+    public static ArrayList<Player> getPlayersFromConcreteGame(int index)
+    {
+        return games.get(index).players;
+    }
+
+    public static void addPlayerToGame(int index, Player player)
+    {
+        games.get(index).players.add(player);
+    }
+
+    public static void addName(String name)
+    {
+        names.add(name);
+    }
+
+    public static ArrayList<String> getNames()
+    {
+        return names;
+    }
+
+    public static void removeName(String name)
+    {
+        names.remove(name);
     }
 
     public static void main(String[] args) throws IOException

@@ -1,16 +1,13 @@
 package server;
 
-import client.game.Colors;
 import gameParts.PlayerColor;
 
-import java.awt.*;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class Player extends Thread
 {
@@ -42,36 +39,35 @@ public class Player extends Thread
 
             while(true)
             {
-                String boardsize = in.readLine();
+                String command = in.readLine();
 
                 if(status == 0)
                 {
-                    if (boardsize.startsWith("JOIN GAME")) {
+                    if (command.startsWith("JOIN GAME"))
+                    {
                         String input = in.readLine();
+                        int index = Integer.valueOf(input);
                         status = 1;
-                        if (!Server.games.get(Integer.valueOf(input)).players.contains(this)) {
-                            Server.games.get(Integer.valueOf(input)).players.add(this);
-                            g = Server.games.get(Integer.valueOf(input));
 
-//                            color = setColor();
+                        ArrayList<Player> playersInGame = Server.getPlayersFromConcreteGame(index);
+                        if(!playersInGame.contains(this))
+                        {
+                            Server.addPlayerToGame(index, this);
+                            g = Server.getConcreteGame(index);
+
                             setColor();
 
                             out.println("NEW GAME WINDOW");
-                            out.println(Server.games.get(Integer.valueOf(input)).valueNeededForWindowToDrawBoard);
-                            out.println(Server.games.get(Integer.valueOf(input)).numberOfPlayers);
+                            out.println(Server.getConcreteGame(index).valueNeededForWindowToDrawBoard);
+                            out.println(Server.getConcreteGame(index).numberOfPlayers);
                         }
 
-                        for (Player p : Server.players)
+                        for (Player p : Server.getAllPlayers())
                         {
                             p.Games();
                         }
                     }
-
-                    if(boardsize == null)
-                    {
-                        return;
-                    }
-                    else if(boardsize.startsWith("CREATE"))
+                    else if(command.startsWith("CREATE"))
                     {
                         String newsize = in.readLine();
                         int numberOfPlayers = Integer.valueOf(in.readLine());
@@ -82,12 +78,13 @@ public class Player extends Thread
                             out.println("GAME");
                             out.println(size);
                             out.println(numberOfPlayers);
+
                             g = new Game(size,numberOfPlayers);
-                            Server.games.add(g);
-//                            color = setColor();
+                            Server.addGame(g);
                             setColor();
-                            g.players.add(this);
-                            for(Player p : Server.players)
+                            g.addPlayer(this);
+
+                            for(Player p : Server.getAllPlayers())
                             {
                                 p.Games();
                             }
@@ -101,35 +98,34 @@ public class Player extends Thread
 
                 if(status == 1)
                 {
-                    if(boardsize.startsWith("CLOSE GAME"))
+                    if(command.startsWith("CLOSE GAME"))
                     {
-                        Server.games.get(Server.games.indexOf(g)).players.remove(this);
-                        if(Server.games.get(Server.games.indexOf(g)).players.isEmpty())
+                        Server.removePlayerFromGame(Server.getIndexOfgame(g), this);
+                        if(Server.getPlayersFromConcreteGame(Server.getIndexOfgame(g)).isEmpty())
                         {
-                            Server.games.remove(g);
+                            Server.removeGame(g);
                         }
                         g = null;
                         status = 0;
-                        for(Player p : Server.players)
+
+                        for(Player p : Server.getAllPlayers())
                         {
                             p.Games();
                             p.out.println("REFRESH");
                         }
                     }
-
-                    if(boardsize.startsWith("START GAME"))
+                    else if(command.startsWith("START GAME"))
                     {
-                        Server.games.get(Server.games.indexOf(g)).inProgress = true;
+                        Server.getConcreteGame(Server.getIndexOfgame(g)).inProgress = true;
                         g.setStartingPlayer();
                         System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
                     }
-
-                    if(boardsize.startsWith("getMoves") || boardsize.startsWith("canMove"))
+                    else if(command.startsWith("getMoves") || command.startsWith("canMove"))
                     {
                         System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
                         if(g.currentPlayer == this)
                         {
-                            g.decodeMessage(boardsize);
+                            g.decodeMessage(command);
                         }
                     }
                 }
@@ -141,7 +137,7 @@ public class Player extends Thread
         }
         finally
         {
-            Server.names.remove(name);
+            Server.removeName(name);
         }
     }
 
@@ -151,10 +147,10 @@ public class Player extends Thread
         out.println(s);
     }
 
-    public void Games()
+    private void Games()
     {
         out.println("RESET");
-        for(Game g : Server.games)
+        for(Game g : Server.getAllGames())
         {
             out.println("NEW GAME");
             for(Player p : g.players)
@@ -163,7 +159,6 @@ public class Player extends Thread
             }
             out.println("STOP");
         }
-        return;
     }
 
     private void Submitname()
@@ -180,10 +175,10 @@ public class Player extends Thread
                 }
                 synchronized (Server.names)
                 {
-                    if (!Server.names.contains(name))
+                    if (!Server.getNames().contains(name))
                     {
                         out.println("NAME ACCEPTED");
-                        Server.names.add(name);
+                        Server.addName(name);
                         break;
                     }
                 }
@@ -206,7 +201,6 @@ public class Player extends Thread
             if(g.currentColors.contains(pc))
             {
                 System.out.println(pc + " in use");
-                continue;
             }
             else
             {
