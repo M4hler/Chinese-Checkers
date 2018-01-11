@@ -20,18 +20,16 @@ public class Client implements Port
 {
 	public BufferedReader in;
 	public PrintWriter out;
-	public JFrame frame /*= new JFrame("Chinese checkers")*/;
+	public JFrame frame;
 	private JMenuBar menubar;
 	private JButton helpMenu;
 	private JButton createGameButton;
 	private ArrayList<JPanel> jpanels;
 	private GameWindow window;
 	private Controller controller;
-	private String serverAddress;
 
 	public Client()
 	{
-//		serverAddress = setServerAddress();
 		controller = new Controller(this);
 
 		frame = new JFrame("Chinese checkers");
@@ -164,7 +162,7 @@ public class Client implements Port
                 JOptionPane.PLAIN_MESSAGE);
     }
 
-	public static void main(String[] args) throws Exception
+	public static void main(String[] args)
 	{
 		Client client = new Client();
 		client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

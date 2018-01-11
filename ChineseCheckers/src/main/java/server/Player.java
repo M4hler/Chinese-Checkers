@@ -123,22 +123,6 @@ public class Player extends Thread
                         }
                     }
 
-/*                    if(boardsize.startsWith("MOVE"))
-                    {
-                        String s = in.readLine();
-                        String[] regex = s.split(",");
-                        if(this.equals(g.currentPlayer) && this.color == this.g.gameboard[Integer.valueOf(regex[0])][Integer.valueOf(regex[1])].getPawn().getColor())
-                        {
-                            for(Player p : this.g.players)
-                            {
-                                p.out.println("REGEX");
-                                p.out.println(s);
-                            }
-                            g.changeTurn();
-                        }
-                        System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
-                    }*/
-
                     if(boardsize.startsWith("START GAME"))
                     {
                         Server.games.get(Server.games.indexOf(g)).inProgress = true;
@@ -211,7 +195,6 @@ public class Player extends Thread
         {
 
         }
-        return;
     }
 
     public PlayerColor getColor() {

@@ -107,7 +107,7 @@ public class Controller
                 {
                     client.refresh();
                 }
-                else if(line.equals("TEST")) //added
+                else if(line.equals("TEST"))
                 {
                     String newline = input.readLine();
                     decodeMessage(newline);
