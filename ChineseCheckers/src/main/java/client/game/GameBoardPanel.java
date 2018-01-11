@@ -13,23 +13,14 @@ import java.util.ArrayList;
 public class GameBoardPanel extends JPanel
 {
     private FieldButton[][] board;
-    Color player;
     private Colors colors;
-    private PrintWriter out;
-    private BufferedReader in;
-    private Controller controller;
-    private int size;
 
     GameBoardPanel(int radius, Color player, Controller controller, PrintWriter out, BufferedReader in, int numberOfPlayers)
     {
-        this.out = out; //it is TEMPORARY! whole in-out logic needs to be moved to the Controller class, this is only for establishing basis board update purposes
-        this.in = in;
-        this.controller = controller;
-        this.player = player;
-        size = 4 * radius + 1;
+        int size = 4 * radius + 1;
         this.board = new FieldButton[size][size];
-
         colors = new Colors();
+
 
         this.setLayout(null);
         this.setSize(1000, 1000);
@@ -87,13 +78,12 @@ public class GameBoardPanel extends JPanel
         }
     }
 
-    public void lowlight(ArrayList<Point> points) {
+    void lowlight(ArrayList<Point> points) {
         int x, y;
         for (Point p : points) {
             x = p.getX();
             y = p.getY();
             board[x][y].colorPawn(colors);
-            //board[x][y].setDefaultBackgroundColor();
         }
     }
 }

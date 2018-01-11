@@ -1,9 +1,6 @@
 package client.game;
 
 import gameParts.Pawn;
-import gameParts.PlayerColor;
-import gameParts.Point;
-import server.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,19 +24,19 @@ class FieldButton extends JButton{
         return y;
     }
 
-    public Pawn getPawn() {
+    Pawn getPawn() {
         return pawn;
     }
 
-    public void setPawn(Pawn pawn){
+    void setPawn(Pawn pawn){
         this.pawn=pawn;
     }
 
-    public void colorPawn(Colors colors) {
+    void colorPawn(Colors colors) {
         if (this.pawn != null) {
             this.setBackground(colors.getPawnColor(pawn.getColor()));
         }else{
-            this.setBackground(defaultColor);
+            this.setDefaultBackgroundColor();
         }
 
 
@@ -64,10 +61,10 @@ class FieldButton extends JButton{
         return this.defaultColor;
     }
 
-    public void setDefaultColor(Color c){
+    void setDefaultColor(Color c){
         this.defaultColor=c;
     }
-    void setDefaultBackgroundColor(){
+    private void setDefaultBackgroundColor(){
         this.setBackground(defaultColor);
     }
 

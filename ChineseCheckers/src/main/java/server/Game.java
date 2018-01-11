@@ -76,7 +76,7 @@ public class Game
             x2=Integer.parseInt((code[3]));
             y2=Integer.parseInt((code[4]));
             boolean b=canMove(x1,y1,x2,y2);
-            if(b==true)
+            if(b)
             {
                 move(x1,y1,x2,y2);
                 for(Player p : players)
@@ -103,13 +103,13 @@ public class Game
         currentPlayer.returnMessage(message);
     }
 
-    public void setStartingPlayer()
+    void setStartingPlayer()
     {
         Random ran = new Random();
         currentPlayer = players.get(ran.nextInt(players.size()));
     }
 
-    public void changeTurn()
+    private void changeTurn()
     {
         int i = players.indexOf(currentPlayer);
         if(i == players.size() - 1)
@@ -172,7 +172,7 @@ public class Game
             }
         }
         //deletes moves that allows to get out from enemy's triangle (Its forbidden by rules)
-        if(gameboard[x][y].getColor()!=null){
+        /*if(gameboard[x][y].getColor()!=null){
             if(gameboard[x][y].getColor()==getEnemyColor(currentPlayer.getColor())){
                 PlayerColor c = getEnemyColor(currentPlayer.getColor());
                 for(Point p: possibleMoves){
@@ -181,7 +181,7 @@ public class Game
                     }
                 }
             }
-        }
+        }*/
         return possibleMoves;
     }
 
