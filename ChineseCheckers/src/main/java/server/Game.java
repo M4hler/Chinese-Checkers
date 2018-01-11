@@ -75,6 +75,12 @@ public class Game
             int x, y;
             x = Integer.parseInt(code[1]);
             y = Integer.parseInt(code[2]);
+
+            if(!(gameboard[x][y].getPawn().getColor() == currentPlayer.getColor()))
+            {
+                return;
+            }
+
             String array = "returnMoves";
             ArrayList<Point> p = returnPossibleMoves(x, y);
             if (p == null) {
