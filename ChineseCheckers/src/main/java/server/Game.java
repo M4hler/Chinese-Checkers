@@ -59,11 +59,18 @@ public class Game
     void decodeMessage(String message)
     {
         String code[]=message.split(",");
+
         if(code[0].equals("getMoves"))
         {
             int x,y;
             x=Integer.parseInt(code[1]);
             y=Integer.parseInt(code[2]);
+
+            if(!(gameboard[x][y].getPawn().getColor() == currentPlayer.getColor()))
+            {
+                return;
+            }
+
             String array="returnMoves";
             ArrayList<Point> p = returnPossibleMoves(x,y);
             for(Point point: p){
