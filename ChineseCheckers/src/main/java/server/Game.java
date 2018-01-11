@@ -4,11 +4,13 @@ package server;
 import gameParts.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Game
 {
     public ArrayList<Player> players;
+    private HashMap<PlayerColor,Integer> score;
     public Field[][] gameboard;
     public int valueNeededForWindowToDrawBoard; //temporary name
     public boolean inProgress; //added
@@ -37,6 +39,13 @@ public class Game
 
         playerColors = setPlayerColors(numberOfPlayers);
         currentColors = new ArrayList<>();
+
+        score = new HashMap<>();
+        int x=((1+boardSize)*boardSize)/2;
+        for(PlayerColor p:playerColors){
+            score.put(p,x);
+        }
+
     }
 
 
@@ -53,34 +62,30 @@ public class Game
 
     public boolean canMove(int x1, int y1, int x2, int y2)
     {
+        if(currentPlayer==null){
+            return false;
+        }
         return (returnPossibleMoves(x1, y1).contains(new Point(x2, y2)));
     }
 
     void decodeMessage(String message)
     {
         String code[]=message.split(",");
-
-        if(code[0].equals("getMoves"))
-        {
-            int x,y;
-            x=Integer.parseInt(code[1]);
-            y=Integer.parseInt(code[2]);
-
-            if(!(gameboard[x][y].getPawn().getColor() == currentPlayer.getColor()))
-            {
+        if(code[0].equals("getMoves")) {
+            int x, y;
+            x = Integer.parseInt(code[1]);
+            y = Integer.parseInt(code[2]);
+            String array = "returnMoves";
+            ArrayList<Point> p = returnPossibleMoves(x, y);
+            if (p == null) {
                 return;
             }
-
-            String array="returnMoves";
-            ArrayList<Point> p = returnPossibleMoves(x,y);
-            for(Point point: p){
-                array=array+","+point.getX()+","+point.getY();
+            for (Point point : p) {
+                array = array + "," + point.getX() + "," + point.getY();
             }
             array += ",end";
             sendMessage(array); //sending fileds where player can move
-
-        }
-        else if(code[0].equals("canMove"))
+        } else if(code[0].equals("canMove"))
         {
             int x1,y1,x2,y2;
             x1=Integer.parseInt(code[1]);
@@ -112,6 +117,7 @@ public class Game
 
     void sendMessage(String message)
     {
+        if(currentPlayer==null) return;
         currentPlayer.returnMessage(message);
     }
 
@@ -136,8 +142,20 @@ public class Game
 
     public void move(int x1,int y1,int x2,int y2)
     {
+        if(gameboard[x1][y1].getColor()==null&&gameboard[x2][y2]!=null) {
+            if (gameboard[x2][y2].getColor() == getEnemyColor(gameboard[x1][y1].getPawn().getColor())) {
+                PlayerColor key=gameboard[x1][y2].getPawn().getColor();
+                int val = score.get(key);
+                val--;
+                score.replace(key,val);
+                if(val==0){
+                    //TODO: sth happens, someone won
+                }
+            }
+        }
         gameboard[x2][y2].setPawn(new Pawn(gameboard[x1][y1].getPawn().getColor()));
         gameboard[x1][y1].setPawn(null);
+
     }
 
 
@@ -150,6 +168,9 @@ public class Game
     //returns an arraylist, that contains all fields allowed to move from field[x][y]
     public ArrayList<Point> returnPossibleMoves(int x, int y)
     {
+        if(currentPlayer==null){
+            return null;
+        }
         ArrayList<Point> possibleMoves = new ArrayList<>();
         int tempX, tempY;
 
