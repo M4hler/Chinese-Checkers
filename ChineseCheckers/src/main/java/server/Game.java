@@ -14,6 +14,8 @@ public class Game
     public boolean inProgress; //added
     public Player currentPlayer; //added
     public int numberOfPlayers;
+    public ArrayList<PlayerColor> playerColors;
+    public ArrayList<PlayerColor> currentColors;
 
     private Point constants[];
     public int boardSize;
@@ -32,6 +34,9 @@ public class Game
         players = new ArrayList<>();
         inProgress = false; //added
         currentPlayer = null; //added
+
+        playerColors = setPlayerColors(numberOfPlayers);
+        currentColors = new ArrayList<>();
     }
 
 
@@ -224,4 +229,42 @@ public class Game
         }
     }
 
+    public ArrayList<PlayerColor> getPlayerColors() {
+        return playerColors;
+    }
+
+    private ArrayList<PlayerColor> setPlayerColors(int number)
+    {
+        ArrayList<PlayerColor> pc = new ArrayList<>();
+
+        switch(number)
+        {
+            case 2:
+                pc.add(PlayerColor.RED);
+                pc.add(PlayerColor.BLACK);
+                break;
+            case 3:
+                pc.add(PlayerColor.RED);
+                pc.add(PlayerColor.BLUE);
+                pc.add(PlayerColor.YELLOW);
+                break;
+            case 4:
+                pc.add(PlayerColor.RED);
+                pc.add(PlayerColor.BLACK);
+                pc.add(PlayerColor.BLUE);
+                pc.add(PlayerColor.WHITE);
+                break;
+            case 6:
+                pc.add(PlayerColor.RED);
+                pc.add(PlayerColor.BLACK);
+                pc.add(PlayerColor.BLUE);
+                pc.add(PlayerColor.WHITE);
+                pc.add(PlayerColor.GREEN);
+                pc.add(PlayerColor.YELLOW);
+                break;
+        }
+        return pc;
+    }
+
 }
+

@@ -53,15 +53,8 @@ public class Player extends Thread
                             Server.games.get(Integer.valueOf(input)).players.add(this);
                             g = Server.games.get(Integer.valueOf(input));
 
-                            for(Player p : this.g.players)
-                            {
-                                color = randomColor();
-                                if(color != p.color)
-                                {
-                                    this.color = color;
-                                    break;
-                                }
-                            }
+//                            color = setColor();
+                            setColor();
 
                             out.println("NEW GAME WINDOW");
                             out.println(Server.games.get(Integer.valueOf(input)).valueNeededForWindowToDrawBoard);
@@ -91,7 +84,8 @@ public class Player extends Thread
                             out.println(numberOfPlayers);
                             g = new Game(size,numberOfPlayers);
                             Server.games.add(g);
-                            color = randomColor();
+//                            color = setColor();
+                            setColor();
                             g.players.add(this);
                             for(Player p : Server.players)
                             {
@@ -201,15 +195,22 @@ public class Player extends Thread
         return color;
     }
 
-    private PlayerColor randomColor()
+    private void setColor()
     {
-        ArrayList<PlayerColor> rc = new ArrayList<>();
-        rc.add(PlayerColor.BLUE);
-        rc.add(PlayerColor.GREEN);
-        rc.add(PlayerColor.BLACK);
-        rc.add(PlayerColor.RED);
-        rc.add(PlayerColor.WHITE);
-        rc.add(PlayerColor.YELLOW);
-        return rc.get(new Random().nextInt(rc.size()));
+        for(PlayerColor pc : g.getPlayerColors())
+        {
+            if(g.currentColors.contains(pc))
+            {
+                System.out.println(pc + " in use");
+                continue;
+            }
+            else
+            {
+                g.currentColors.add(pc);
+                System.out.println(pc + " not in use");
+                this.color = pc;
+                break;
+            }
+        }
     }
 }

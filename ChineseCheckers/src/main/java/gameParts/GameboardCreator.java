@@ -46,7 +46,8 @@ public class GameboardCreator {
         Color color;
         PlayerColor pcolor;
         boolean doesPlay;
-        for(int p=0;p<6;p++){
+        for(int p=0;p<6;p++)
+        {
             doesPlay=true;
             if(p==0){
                 x=0;
@@ -97,9 +98,12 @@ public class GameboardCreator {
                 if(numberOfPlayers!=6 && numberOfPlayers!=3)
                     doesPlay=false;
             }
-            for(int i=radius;i>0;i--){
+
+            for(int i=radius;i>0;i--)
+            {
                 c=(c+2)%6;
-                for(int j=0;j<i;j++){
+                for(int j=0;j<i;j++)
+                {
                     x+=constants[c].getX();
                     y+=constants[c].getY();
                     if(numberOfPlayers==0){
@@ -112,11 +116,8 @@ public class GameboardCreator {
                         board[x+2*radius][y+2*radius]=new Field(x,y,null);
                     }
                 }
-
             }
-
         }
-
     }
 
     public Field[][] getBoard() {

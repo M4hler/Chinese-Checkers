@@ -195,6 +195,11 @@ public class Controller
 
     public void lowlight()
     {
+        if(highlighted == null)
+        {
+            return;
+        }
+
         if(highlighted.size()!=0)
         {
             panel.lowlight(highlighted);
