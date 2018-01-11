@@ -11,11 +11,12 @@ import java.util.Random;
 public class Game
 {
     public ArrayList<Player> players;
+    ArrayList<AI> computerPlayers;
     private HashMap<PlayerColor,Integer> score;
     public Field[][] gameboard;
     public int valueNeededForWindowToDrawBoard; //temporary name
     public boolean inProgress; //added
-    public Player currentPlayer; //added
+    public PlayerColor currentPlayer; //added
     public int numberOfPlayers;
     public ArrayList<PlayerColor> playerColors;
     public ArrayList<PlayerColor> currentColors;
@@ -77,7 +78,7 @@ public class Game
             x = Integer.parseInt(code[1]);
             y = Integer.parseInt(code[2]);
 
-            if(!(gameboard[x][y].getPawn().getColor() == currentPlayer.getColor()))
+            if(!(gameboard[x][y].getPawn().getColor() == currentPlayer))
             {
                 return;
             }
@@ -103,13 +104,6 @@ public class Game
             if(b)
             {
                 move(x1,y1,x2,y2);
-                for(Player p : players)
-                {
-//                    sendMessage("move,"+x1+","+y1+","+x2+","+y2); //TODO: TO ALL PLAYERS
-                    p.returnMessage("move,"+x1+","+y1+","+x2+","+y2);
-                }
-
-                changeTurn();
             }
             else
             {
@@ -125,7 +119,7 @@ public class Game
     void sendMessage(String message)
     {
         if(currentPlayer==null) return;
-        currentPlayer.returnMessage(message);
+        getPlayerByColor(currentPlayer).returnMessage(message);
     }
 
     public void addPlayer(Player player)
@@ -140,12 +134,47 @@ public class Game
 
     void setStartingPlayer()
     {
+        if(players.size()<numberOfPlayers){
+            fillWithAI();
+        }
         Random ran = new Random();
-        currentPlayer = players.get(ran.nextInt(players.size()));
+        currentPlayer = players.get(ran.nextInt(players.size())).getColor();
     }
 
+    void fillWithAI(){
+        computerPlayers=new ArrayList<>();
+        for(PlayerColor p: playerColors){
+            boolean add=true;
+            for(Player player:players){
+                if(player.getColor()==p){
+                    add=false;
+                }
+                if(add){
+                    computerPlayers.add(new AI(this,p));
+                }
+                add=true;
+            }
+        }
+    }
     private void changeTurn()
     {
+        int i = playerColors.indexOf(currentPlayer);
+        i++;
+        i=i%numberOfPlayers;
+        currentPlayer=playerColors.get(i);
+        for(AI ai:computerPlayers){
+            if(ai.getPlayerColor()==currentPlayer){
+                ai.makeMove();
+                break;
+            }
+        }
+        for(Player p: players){
+            if(p.getColor()==currentPlayer){
+                refreshCurrentPlayerView();
+                break;
+            }
+        }
+        /*
         int i = players.indexOf(currentPlayer);
         if(i == players.size() - 1)
         {
@@ -155,10 +184,25 @@ public class Game
         {
             currentPlayer = players.get(i + 1);
         }
+        */
+
+    }
+    Player getPlayerByColor(PlayerColor playerColor){
+        Player player=null;
+        for(Player p : players)
+        {
+            if(p.getColor()==currentPlayer){
+                player=p;
+            }
+        }
+        return player;
+    }
+
+    void refreshCurrentPlayerView(){
 
         for(Player p : players)
         {
-            p.changeCurrentPlayer(currentPlayer);
+            p.changeCurrentPlayer(getPlayerByColor(currentPlayer));
         }
     }
 
@@ -178,7 +222,12 @@ public class Game
         }
         gameboard[x2][y2].setPawn(new Pawn(gameboard[x1][y1].getPawn().getColor()));
         gameboard[x1][y1].setPawn(null);
+        for(Player p : players)
+        {
+            p.returnMessage("move,"+x1+","+y1+","+x2+","+y2);
+        }
 
+        changeTurn();
     }
 
     //returns an arraylist, that contains all fields allowed to move from field[x][y]
@@ -295,22 +344,23 @@ public class Game
                 break;
             case 3:
                 pc.add(PlayerColor.RED);
-                pc.add(PlayerColor.BLUE);
                 pc.add(PlayerColor.YELLOW);
+                pc.add(PlayerColor.BLUE);
                 break;
             case 4:
                 pc.add(PlayerColor.RED);
+                pc.add(PlayerColor.WHITE);
                 pc.add(PlayerColor.BLACK);
                 pc.add(PlayerColor.BLUE);
-                pc.add(PlayerColor.WHITE);
+
                 break;
             case 6:
                 pc.add(PlayerColor.RED);
+                pc.add(PlayerColor.WHITE);
+                pc.add(PlayerColor.YELLOW);
                 pc.add(PlayerColor.BLACK);
                 pc.add(PlayerColor.BLUE);
-                pc.add(PlayerColor.WHITE);
                 pc.add(PlayerColor.GREEN);
-                pc.add(PlayerColor.YELLOW);
                 break;
         }
         return pc;

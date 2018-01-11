@@ -105,6 +105,7 @@ public class Controller
                 }
                 else if(line.equals("REFRESH"))
                 {
+                    client.frame.setVisible(true);
                     client.refresh();
                 }
                 else if(line.equals("TEST"))

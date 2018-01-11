@@ -25,22 +25,26 @@ public class AI {
         enemyCorner=getEnemyTopPoint(enemyColor);
     }
 
+    public PlayerColor getPlayerColor() {
+        return playerColor;
+    }
 
     public void makeMove(){
         for(int i=0;i<boardSize;i++){
             for(int j=0;j<boardSize;j++){
                 if(game.gameboard[i][j]!=null){
-                    if(game.gameboard[i][j].getPawn().getColor()==playerColor){
-                        findLongestMove(new Point(i,j));
+                    if(game.gameboard[i][j].getPawn()!=null){
+                        if(game.gameboard[i][j].getPawn().getColor()==playerColor){
+                            findLongestMove(new Point(i,j));
+                        }
                     }
                 }
             }
         }
         if(start ==null || end ==null){
             longestMove=0;
-            //TODO: end turn
         }else{
-            //TODO: makeMove(start,end);
+           game.move(start.getX(),start.getY(),end.getX(),end.getY());
         }
         longestMove=0;
         start=null;
