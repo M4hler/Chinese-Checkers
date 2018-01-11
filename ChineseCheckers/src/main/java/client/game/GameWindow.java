@@ -42,7 +42,6 @@ public class GameWindow extends JFrame
         jmenubar.add(passButton);
         this.setJMenuBar(jmenubar);
 
-//        Controller controller=new DummyController();
         panel = new GameBoardPanel(radius,null,controller, out, in, numberOfPlayers);
         this.add(panel);
         controller.addPanel(panel);
@@ -50,7 +49,6 @@ public class GameWindow extends JFrame
         startGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                out.println("START GAME");
                 controller.startGame();
             }
         });

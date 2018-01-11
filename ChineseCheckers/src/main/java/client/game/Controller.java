@@ -3,6 +3,7 @@ package client.game;
 import client.Client;
 import gameParts.Point;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -46,20 +47,30 @@ public class Controller
 
     public void createGame(String s)
     {
+        int i;
+        while(true)
+        {
+            try
+            {
+                String playersNumber = getNumberOfPlayers();
+                i = Integer.valueOf(playersNumber);
+            }
+            catch(NumberFormatException e)
+            {
+                continue;
+            }
+            break;
+        }
+
         output.println("CREATE");
         output.println(s);
+        output.println(i);
     }
 
     public void joinGame(int index)
     {
         output.println("JOIN GAME");
         output.println(index);
-    }
-
-    public void makeMove(String s)
-    {
-        output.println("MOVE");
-        output.println(s);
     }
 
     public void run()
@@ -73,18 +84,19 @@ public class Controller
                 if(line.equals("RESET"))
                 {
                     client.clearLobby();
-//                    String newline = input.readLine();
                 }
                 else if(line.equals("NEW GAME WINDOW"))
                 {
                     String newline = input.readLine();
-                    client.drawWindow(newline);
+                    String number = input.readLine();
+                    client.drawWindow(newline, number);
                 }
                 else if(line.equals("GAME"))
                 {
                     client.clearLobby();
                     String newline = input.readLine();
-                    client.drawWindow(newline);
+                    String number = input.readLine();
+                    client.drawWindow(newline, number);
                 }
                 else if(line.equals("NEW GAME"))
                 {
@@ -95,10 +107,10 @@ public class Controller
                 {
                     client.refresh();
                 }
-                else if(line.equals("REGEX"))
+                else if(line.equals("TEST"))
                 {
                     String newline = input.readLine();
-                    client.move(newline);
+                    decodeMessage(newline);
                 }
             }
             catch(IOException e)
@@ -126,6 +138,15 @@ public class Controller
 
         }
         return players;
+    }
+
+    public String getNumberOfPlayers()
+    {
+        return JOptionPane.showInputDialog(
+                client.frame,
+                "Give number of players:",
+                "Number of players",
+                JOptionPane.PLAIN_MESSAGE);
     }
 
     public void startGame()
@@ -174,11 +195,11 @@ public class Controller
 
     public void lowlight()
     {
-/*        if(highlighted.size()!=0)
+        if(highlighted.size()!=0)
         {
             panel.lowlight(highlighted);
             highlighted.clear();
-        }*/
+        }
     }
 
     public void doMove(int x1,int y1,int x2,int y2)
@@ -209,8 +230,6 @@ public class Controller
                 int y2 = b.gety();
 //                lowlight();
                 sendToServer("canMove," + x1 + "," + y1 + "," + x2 + "," + y2);
-                String s = x1 + "," + y1 + "," + x2 + "," + y2;
-                makeMove(s);
                 //if can move, if cant lowlight and null
             }
         }
@@ -223,10 +242,7 @@ public class Controller
 
     void sendToServer(String code)
     {
-        //
-        //
-        //
-        //
+        output.println(code);
     }
 
     void decodeMessage(String message)

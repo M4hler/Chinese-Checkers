@@ -20,18 +20,16 @@ public class Client implements Port
 {
 	public BufferedReader in;
 	public PrintWriter out;
-	public JFrame frame /*= new JFrame("Chinese checkers")*/;
+	public JFrame frame;
 	private JMenuBar menubar;
 	private JButton helpMenu;
 	private JButton createGameButton;
 	private ArrayList<JPanel> jpanels;
 	private GameWindow window;
 	private Controller controller;
-	private String serverAddress;
 
 	public Client()
 	{
-//		serverAddress = setServerAddress();
 		controller = new Controller(this);
 
 		frame = new JFrame("Chinese checkers");
@@ -69,77 +67,12 @@ public class Client implements Port
 		frame.setVisible(true);
 	}
 
-	private void run() throws IOException
+	private void run()
 	{
-//		String serverAddress = getServerAddress();
-//		Socket socket = new Socket(serverAddress, 8080); //temporary change
 		controller.run();
 
 		in = controller.input; /*new BufferedReader(new InputStreamReader(socket.getInputStream()));*/
 		out = controller.output; /*new PrintWriter(socket.getOutputStream(), true);*/
-
-/*		while (true)
-		{
-			String line = in.readLine();
-			if (line.startsWith("SUBMITNAME"))
-			{
-				out.println(getName());
-			}
-			else if (line.startsWith("NAMEACCEPTED"))
-			{
-				break;
-			}
-		}*/
-
-		while(true)
-		{
-			String line = in.readLine();
-/*			if(line.startsWith("START"))
-			{
-				frame.getContentPane().removeAll();
-				jpanels = new ArrayList<JPanel>();
-			}
-			if(line.startsWith("GAMES"))
-			{
-				JPanel panel = addAButton(frame.getContentPane());
-
-				String l = in.readLine();
-				while(!l.equals("NEXT"))
-				{
-					JLabel jl = new JLabel(l);
-					panel.add(jl);
-					l = in.readLine();
-				}
-				jpanels.add(panel);
-				frame.getContentPane().add(panel);
-
-				frame.invalidate();
-				frame.validate();
-				frame.repaint();
-			}*/
-
-/*			if(line.startsWith("RETURN"))
-			{
-				String size = in.readLine();
-//				GameWindow gw = new GameWindow(Integer.valueOf(size), in, out);
-				window = new GameWindow(Integer.valueOf(size), in, out,6*//*, controller*//*);
-			}*/
-
-/*			if(line.startsWith("REGEX"))
-			{
-				String s = in.readLine();
-				String[] regex = s.split(",");
-//				System.out.println(regex[0] + " " + regex[1] + " " + regex[2] + " " + regex[3]);
-				window.panel.movePawn(Integer.valueOf(regex[0]), Integer.valueOf(regex[1]), Integer.valueOf(regex[2]), Integer.valueOf(regex[3]));
-			}*/
-
-/*			if(line.startsWith("REFRESH"))
-			{
-				frame.invalidate();
-				frame.validate();
-				frame.repaint();
-			}*/
-		}
 	}
 
 	public void clearLobby()
@@ -165,26 +98,16 @@ public class Client implements Port
 			panel.add(jl);
 		}
 
-/*		while(!l.equals("NEXT"))
-		{
-			JLabel jl = new JLabel(l);
-			panel.add(jl);
-			l = in.readLine();
-		}*/
 		jpanels.add(panel);
 		frame.getContentPane().add(panel);
 
 		refresh();
 	}
 
-/*	public void lowlight(ArrayList<Point> points)
+	public void drawWindow(String size, String number)
 	{
-		window.panel.lowlight(points);
-	}*/
-
-	public void drawWindow(String size)
-	{
-		window = new GameWindow(Integer.valueOf(size), in, out,6, controller);
+		int i = Integer.valueOf(number);
+		window = new GameWindow(Integer.valueOf(size), in, out, i, controller);
 	}
 
 	public void move(String s)
@@ -201,8 +124,6 @@ public class Client implements Port
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-//				out.println("JOIN GAME" );
-//				out.println(jpanels.indexOf(panel));
 				controller.joinGame(jpanels.indexOf(panel));
 			}
 		});
@@ -241,7 +162,7 @@ public class Client implements Port
                 JOptionPane.PLAIN_MESSAGE);
     }
 
-	public static void main(String[] args) throws Exception
+	public static void main(String[] args)
 	{
 		Client client = new Client();
 		client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
