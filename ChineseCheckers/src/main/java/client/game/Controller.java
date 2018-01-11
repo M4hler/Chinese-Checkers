@@ -18,15 +18,17 @@ public class Controller
     ArrayList<Point> highlighted;
     Client client;
 
+    private String name;
     private String serverAddress;
-    public BufferedReader input;
-    public PrintWriter output;
+    private BufferedReader input;
+    private PrintWriter output;
 
     public Controller(Client myclient)
     {
         lastClicked = null;
         highlighted = null;
         panel = null;
+        name = "";
         client = myclient;
 
         serverAddress = client.setServerAddress();
@@ -41,8 +43,6 @@ public class Controller
 
         }
         setName();
-//        client.frame.setVisible(true);
-//        run();
     }
 
     public void createGame(String s)
@@ -112,6 +112,11 @@ public class Controller
                     String newline = input.readLine();
                     decodeMessage(newline);
                 }
+                else if(line.equals("CURRENT PLAYER"))
+                {
+                    String newline = input.readLine();
+                    panel.setCurrentPlayerDisplay(newline);
+                }
             }
             catch(IOException e)
             {
@@ -168,7 +173,8 @@ public class Controller
                 String line = input.readLine();
                 if(line.equals("SUBMITNAME"))
                 {
-                    output.println(client.getName());
+                    name = client.getName();
+                    output.println(name);
                 }
                 else if(line.equals("NAME ACCEPTED"))
                 {
@@ -180,6 +186,11 @@ public class Controller
 
             }
         }
+    }
+
+    public String getName()
+    {
+        return name;
     }
 
     public void addPanel(GameBoardPanel panel)

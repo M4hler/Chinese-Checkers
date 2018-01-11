@@ -147,6 +147,12 @@ public class Player extends Thread
         out.println(s);
     }
 
+    public void changeCurrentPlayer(Player player)
+    {
+        out.println("CURRENT PLAYER");
+        out.println(player.name);
+    }
+
     private void Games()
     {
         out.println("RESET");

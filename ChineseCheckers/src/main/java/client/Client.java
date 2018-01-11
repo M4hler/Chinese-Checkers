@@ -57,7 +57,10 @@ public class Client implements Port
 
 		frame.setSize(400, 400);
 		frame.setVisible(true);
+	}
 
+	private void run()
+	{
 		controller.run();
 	}
 
@@ -152,5 +155,6 @@ public class Client implements Port
 	{
 		Client client = new Client();
 		client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		client.run();
 	}
 }
