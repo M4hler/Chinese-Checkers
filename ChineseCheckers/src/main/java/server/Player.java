@@ -126,7 +126,11 @@ public class Player extends Thread
 
                     if(boardsize.startsWith("getMoves") || boardsize.startsWith("canMove"))
                     {
-                        g.decodeMessage(boardsize);
+                        System.out.println(g.currentPlayer.name + " " + g.currentPlayer.color);
+                        if(g.currentPlayer == this)
+                        {
+                            g.decodeMessage(boardsize);
+                        }
                     }
                 }
             }
