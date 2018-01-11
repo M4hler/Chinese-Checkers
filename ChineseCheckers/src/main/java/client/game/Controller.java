@@ -226,8 +226,8 @@ public class Controller
                 fieldButtonClicked(b);
             } else if (b.getPawn() != null) {
                 lastClicked = b;
-                //lowlight
-                //sendToServer("getMoves,"+b.getCoordinates().getx()+","+b.getCoordinates().gety());
+                lowlight();
+                sendToServer("getMoves,"+b.getx()+","+b.gety());
             } else {
                 int x1 = lastClicked.getx();
                 int y1 = lastClicked.gety();

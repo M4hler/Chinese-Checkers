@@ -37,9 +37,10 @@ public class AI {
             }
         }
         if(start ==null || end ==null){
-            //end turn
+            longestMove=0;
+            //TODO: end turn
         }else{
-            //makeMove(start,end);
+            //TODO: makeMove(start,end);
         }
         longestMove=0;
         start=null;

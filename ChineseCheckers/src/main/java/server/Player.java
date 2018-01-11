@@ -209,6 +209,7 @@ public class Player extends Thread
                 g.currentColors.add(pc);
                 System.out.println(pc + " not in use");
                 this.color = pc;
+
                 break;
             }
         }
