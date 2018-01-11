@@ -36,29 +36,8 @@ class FieldButton extends JButton{
     }
 
     public void colorPawn(Colors colors) {
-        PlayerColor c;
         if (this.pawn != null) {
-            c = pawn.getColor();
-            switch (c){
-                case RED:
-                    this.setBackground(colors.pawnRed);
-                    break;
-                case BLUE:
-                    this.setBackground(colors.pawnBlue);
-                    break;
-                case BLACK:
-                    this.setBackground(colors.pawnBlack);
-                    break;
-                case GREEN:
-                    this.setBackground(colors.pawnGreen);
-                    break;
-                case WHITE:
-                    this.setBackground(colors.pawnWhite);
-                    break;
-                case YELLOW:
-                    this.setBackground(colors.pawnYellow);
-                    break;
-            }
+            this.setBackground(colors.getPawnColor(pawn.getColor()));
         }else{
             this.setBackground(defaultColor);
         }
@@ -78,6 +57,7 @@ class FieldButton extends JButton{
         }
         return same;
     }
+
 
     public Color getColor()
     {

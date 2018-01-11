@@ -14,11 +14,11 @@ public class GameBoardPanel extends JPanel
 {
     private FieldButton[][] board;
     Color player;
-    Colors colors;
+    private Colors colors;
     private PrintWriter out;
     private BufferedReader in;
     private Controller controller;
-    int size;
+    private int size;
 
     GameBoardPanel(int radius, Color player, Controller controller, PrintWriter out, BufferedReader in, int numberOfPlayers)
     {
@@ -50,7 +50,7 @@ public class GameBoardPanel extends JPanel
                     FieldButton b = new FieldButton(x,y);
                     b.setBounds(tempX, tempY, 20, 20);
                     b.setPawn(board[x][y].getPawn());
-                    b.setBackground((board[x][y].getColor() == null) ? colors.field : colors.getFieldColor(board[x][y].getColor()));
+                    b.setBackground((board[x][y].getColor() == null) ? colors.field : colors.getPawnColor(board[x][y].getColor()));
                     b.setDefaultColor((board[x][y].getColor() == null) ? colors.field : colors.getFieldColor(board[x][y].getColor()));
                     b.colorPawn(colors);
 

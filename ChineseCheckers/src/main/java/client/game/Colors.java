@@ -6,12 +6,9 @@ import java.awt.*;
 
 public class Colors
 {
-    Color pawnYellow;
-    Color pawnBlue;
-    Color pawnBlack;
-    Color pawnGreen;
-    Color pawnWhite;
-    Color pawnRed;
+    private Color pawnYellow,pawnBlue,pawnBlack,pawnGreen,pawnWhite,pawnRed,
+                  fieldYellow,fieldBlue,fieldBlack,fieldGreen,fieldWhite,fieldRed;
+
     Color highlighted;
     Color field;
 
@@ -26,15 +23,15 @@ public class Colors
         pawnRed=new Color(128, 0, 0);
         highlighted =new Color(84, 24, 94);
         field=Color.GRAY;
-       pawnYellow=Color.YELLOW;
-       pawnBlue=Color.blue;
-       pawnBlack=Color.BLACK;
-       pawnGreen=Color.GREEN;
-       pawnWhite=Color.WHITE;
-       pawnRed=Color.RED;
+        fieldYellow=Color.YELLOW;
+        fieldBlue=Color.blue;
+        fieldBlack=Color.BLACK;
+        fieldGreen=Color.GREEN;
+        fieldWhite=Color.WHITE;
+        fieldRed=Color.RED;
     }
 
-    public Color getFieldColor(PlayerColor p){
+    public Color getPawnColor(PlayerColor p){
         switch (p){
             case BLACK:return pawnBlack;
             case BLUE:return pawnBlue;
@@ -44,6 +41,17 @@ public class Colors
             default:return pawnYellow;
         }
     }
+    public Color getFieldColor(PlayerColor p){
+        switch (p){
+            case BLACK:return fieldBlack;
+            case BLUE:return fieldBlue;
+            case GREEN:return fieldGreen;
+            case RED:return fieldRed;
+            case WHITE:return fieldWhite;
+            default:return fieldYellow;
+        }
+    }
+
 
 
 }
