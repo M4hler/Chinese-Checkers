@@ -2,24 +2,16 @@ package client;
 
 import client.game.Controller;
 import client.game.GameWindow;
-import gameParts.Point;
 import server.Port;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.ArrayList;
 import javax.swing.*;
 
 public class Client implements Port
 {
-	public BufferedReader in;
-	public PrintWriter out;
 	public JFrame frame;
 	private JMenuBar menubar;
 	private JButton helpMenu;
@@ -65,14 +57,8 @@ public class Client implements Port
 
 		frame.setSize(400, 400);
 		frame.setVisible(true);
-	}
 
-	private void run()
-	{
 		controller.run();
-
-		in = controller.input; /*new BufferedReader(new InputStreamReader(socket.getInputStream()));*/
-		out = controller.output; /*new PrintWriter(socket.getOutputStream(), true);*/
 	}
 
 	public void clearLobby()
@@ -107,7 +93,7 @@ public class Client implements Port
 	public void drawWindow(String size, String number)
 	{
 		int i = Integer.valueOf(number);
-		window = new GameWindow(Integer.valueOf(size), in, out, i, controller);
+		window = new GameWindow(Integer.valueOf(size), /*in, out,*/ i, controller);
 	}
 
 	public void move(String s)
@@ -140,7 +126,7 @@ public class Client implements Port
 		return JOptionPane.showInputDialog(
 				frame,
 				"Enter IP Address of the Server:",
-				"Welcome to the Chatter",
+				"Welcome to the game",
 				JOptionPane.QUESTION_MESSAGE);
 	}
 
@@ -166,7 +152,5 @@ public class Client implements Port
 	{
 		Client client = new Client();
 		client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		client.frame.setVisible(true);
-		client.run();
 	}
 }

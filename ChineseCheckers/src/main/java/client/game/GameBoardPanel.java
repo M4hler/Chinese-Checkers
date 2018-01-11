@@ -6,8 +6,6 @@ import gameParts.Pawn;
 import gameParts.Point;
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class GameBoardPanel extends JPanel
@@ -15,7 +13,7 @@ public class GameBoardPanel extends JPanel
     private FieldButton[][] board;
     private Colors colors;
 
-    GameBoardPanel(int radius, Color player, Controller controller, PrintWriter out, BufferedReader in, int numberOfPlayers)
+    GameBoardPanel(int radius, Color player, Controller controller, int numberOfPlayers)
     {
         int size = 4 * radius + 1;
         this.board = new FieldButton[size][size];
@@ -46,7 +44,6 @@ public class GameBoardPanel extends JPanel
                     b.colorPawn(colors);
 
                     b.addActionListener(actionEvent -> {
-//                        System.out.println(" x:" + b.coordinates.getx()+" y: "+b.coordinates.gety());
                         controller.fieldButtonClicked(b);
                     });
 

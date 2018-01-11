@@ -18,14 +18,10 @@ public class GameWindow extends JFrame
     private JMenuBar jmenubar;
     private JButton startGameButton;
     private JButton passButton;
-    private BufferedReader in;
-    private PrintWriter out;
     private Controller controller;
 
-    public GameWindow(int radius, BufferedReader in, PrintWriter out,int numberOfPlayers, Controller controller/*, Color player*/)
+    public GameWindow(int radius,int numberOfPlayers, Controller controller/*, Color player*/)
     {
-        this.in = in;
-        this.out = out;
         this.controller = controller;
 
         this.setResizable(false);
@@ -41,7 +37,7 @@ public class GameWindow extends JFrame
         jmenubar.add(passButton);
         this.setJMenuBar(jmenubar);
 
-        panel = new GameBoardPanel(radius,null,controller, out, in, numberOfPlayers);
+        panel = new GameBoardPanel(radius,null, controller, numberOfPlayers);
         this.add(panel);
         controller.addPanel(panel);
 
