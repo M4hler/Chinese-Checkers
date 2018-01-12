@@ -4,7 +4,7 @@ import gameParts.PlayerColor;
 
 import java.awt.*;
 
-public class Colors
+class Colors
 {
     private Color pawnYellow,pawnBlue,pawnBlack,pawnGreen,pawnWhite,pawnRed,
                   fieldYellow,fieldBlue,fieldBlack,fieldGreen,fieldWhite,fieldRed;
@@ -13,7 +13,7 @@ public class Colors
     Color field;
 
 
-   public Colors()
+   Colors()
    {
         pawnYellow=new Color(255, 255, 0);
         pawnBlue=new Color(0, 0, 150) ;
@@ -31,7 +31,7 @@ public class Colors
         fieldRed=new Color(255, 204, 204);
     }
 
-    public Color getPawnColor(PlayerColor p){
+    Color getPawnColor(PlayerColor p){
         switch (p){
             case BLACK:return pawnBlack;
             case BLUE:return pawnBlue;
@@ -41,7 +41,7 @@ public class Colors
             default:return pawnYellow;
         }
     }
-    public Color getFieldColor(PlayerColor p){
+    Color getFieldColor(PlayerColor p){
         switch (p){
             case BLACK:return fieldBlack;
             case BLUE:return fieldBlue;

@@ -2,7 +2,6 @@ package client;
 
 import client.game.Controller;
 import client.game.GameWindow;
-import server.Port;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,26 +9,22 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class Client implements Port
-{
+public class Client {
 	public JFrame frame;
-	private JMenuBar menubar;
-	private JButton helpMenu;
-	private JButton createGameButton;
 	private ArrayList<JPanel> jpanels;
 	private GameWindow window;
 	private Controller controller;
 
-	public Client()
+	private Client()
 	{
 		controller = new Controller(this);
 
 		frame = new JFrame("Chinese checkers");
 
 		jpanels = new ArrayList<>();
-		menubar = new JMenuBar();
-		createGameButton = new JButton("Create game");
-		helpMenu = new JButton("Help");
+		JMenuBar menubar = new JMenuBar();
+		JButton createGameButton = new JButton("Create game");
+		JButton helpMenu = new JButton("Help");
 
 		createGameButton.addActionListener(new ActionListener() {
 			@Override
@@ -79,7 +74,7 @@ public class Client implements Port
 
 	public void refreshLobby(ArrayList<String> players)
 	{
-		JPanel panel = addAButton(frame.getContentPane());
+		JPanel panel = addAButton();//frame.getContentPane());
 
 		for(String s : players)
 		{
@@ -100,13 +95,7 @@ public class Client implements Port
 		frame.setVisible(false);
 	}
 
-	public void move(String s)
-	{
-		String[] regex = s.split(",");
-		window.panel.movePawn(Integer.valueOf(regex[0]), Integer.valueOf(regex[1]), Integer.valueOf(regex[2]), Integer.valueOf(regex[3]));
-	}
-
-	private JPanel addAButton(Container container)
+	private JPanel addAButton()//Container cons
 	{
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JButton jb = new JButton("Join Game");

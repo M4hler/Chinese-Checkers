@@ -6,9 +6,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public class Server implements Port
-{
-    public static ArrayList<String> names;
+public class Server {
+    static ArrayList<String> names;
     private static  ArrayList<Game> games;
     private static ArrayList<Player> players;
 
@@ -45,62 +44,62 @@ public class Server implements Port
         }
     }
 
-    public static ArrayList<Player> getAllPlayers()
+    static ArrayList<Player> getAllPlayers()
     {
         return players;
     }
 
-    public static void addGame(Game game)
+    static void addGame(Game game)
     {
         games.add(game);
     }
 
-    public static void removeGame(Game game)
+    static void removeGame(Game game)
     {
         games.remove(game);
     }
 
-    public static Game getConcreteGame(int index)
+    static Game getConcreteGame(int index)
     {
         return games.get(index);
     }
 
-    public static void removePlayerFromGame(int index, Player player)
+    static void removePlayerFromGame(int index, Player player)
     {
         games.get(index).players.remove(player);
     }
 
-    public static int getIndexOfGame(Game game)
+    static int getIndexOfGame(Game game)
     {
         return games.indexOf(game);
     }
 
-    public static ArrayList<Game> getAllGames()
+    static ArrayList<Game> getAllGames()
     {
         return games;
     }
 
-    public static ArrayList<Player> getPlayersFromConcreteGame(int index)
+    static ArrayList<Player> getPlayersFromConcreteGame(int index)
     {
         return games.get(index).players;
     }
 
-    public static void addPlayerToGame(int index, Player player)
+    static void addPlayerToGame(int index, Player player)
     {
         games.get(index).players.add(player);
     }
 
-    public static void addName(String name)
+    static void addName(String name)
     {
         names.add(name);
     }
 
-    public static ArrayList<String> getNames()
+    static ArrayList<String> getNames()
     {
         return names;
     }
 
-    public static void removeName(String name)
+    static void removeName(String name)
     {
         names.remove(name);
     }

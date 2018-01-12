@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.Math.*;
 
-public class AI {
+class AI {
     private Game game;
     private PlayerColor playerColor;
     private Point enemyCorner;
@@ -15,8 +15,9 @@ public class AI {
 
     private int longestMove;
     private Point start,end;
+    private Point[][] memory;
 
-    public AI(Game game, PlayerColor playerColor){
+    AI(Game game, PlayerColor playerColor){
         this.game=game;
         this.playerColor=playerColor;
         longestMove=0;
@@ -25,13 +26,29 @@ public class AI {
         boardSize=game.boardSize;
         PlayerColor enemyColor=game.getEnemyColor(playerColor);
         enemyCorner=getEnemyTopPoint(enemyColor);
+        memory=new Point[4][2];
     }
 
-    public PlayerColor getPlayerColor() {
+    PlayerColor getPlayerColor() {
         return playerColor;
     }
 
-    public void makeMove(){
+
+    /*
+    private void shiftMemory(){
+        memory[3][0]=memory[2][0];
+        memory[3][1]=memory[2][1];
+        memory[2][0]=memory[1][0];
+        memory[2][1]=memory[1][1];
+        memory[1][0]=memory[0][0];
+        memory[1][1]=memory[0][0];
+    }*/
+
+    void makeMove(){
+        longestMove=0;
+        start=null;
+        end=null;
+
         for(int i=0;i<boardSize;i++){
             for(int j=0;j<boardSize;j++){
                 if(game.gameboard[i][j]!=null){
@@ -44,7 +61,7 @@ public class AI {
             }
         }
         if(start ==null || end ==null){
-            longestMove=0;
+            game.changeTurn();
         }else{
             try{
                 TimeUnit.MILLISECONDS.sleep(400);
@@ -52,20 +69,52 @@ public class AI {
                 System.out.println("sleep failure");
             }
 
-           game.move(start.getX(),start.getY(),end.getX(),end.getY());
+            /*shiftMemory();
+            memory[0][0]=new Point(start.getX(),start.getY());
+            memory[0][1]=new Point(end.getX(),end.getY());
+            */
+            game.move(start.getX(),start.getY(),end.getX(),end.getY());
+
         }
-        longestMove=0;
-        start=null;
-        end=null;
     }
 
     private void findLongestMove(Point given){
         ArrayList<Point> possibleMoves=game.returnPossibleMoves(given.getX(),given.getY());
         for(Point p:possibleMoves){
             if((distance(p,enemyCorner)-distance(given,enemyCorner))>=longestMove){
+
                 longestMove=(distance(p,enemyCorner)-distance(given,enemyCorner));
+
+                if(longestMove==0 && game.gameboard[given.getX()][given.getY()].getColor()!=null){
+                    continue;
+                }
+
                 start=given;
                 end=p;
+
+
+                /*boolean repeated=false;
+                if((distance(p,enemyCorner)-distance(given,enemyCorner))==0){
+                    for(int i=0;i<4;i++){
+                        if(memory[i][0]!=null&&memory[i][1]!=null) {
+                            if (memory[i][0].getX()==given.getX() && memory[i][1].getX()==p.getX() &&
+                                    memory[i][0].getY()==given.getY() && memory[i][1].getY()==p.getY()){
+                                repeated=true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!repeated){
+                        longestMove=(distance(p,enemyCorner)-distance(given,enemyCorner));
+                        start=given;
+                        end=p;
+                    }
+                }else{
+                    longestMove=(distance(p,enemyCorner)-distance(given,enemyCorner));
+                    start=given;
+                    end=p;
+                }*/
+
             }
         }
     }

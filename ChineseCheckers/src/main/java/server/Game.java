@@ -3,9 +3,6 @@ package server;
 
 import gameParts.*;
 import gameParts.Point;
-
-import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,19 +10,19 @@ import java.util.Random;
 
 public class Game
 {
-    public ArrayList<Player> players;
-    ArrayList<AI> computerPlayers;
+    ArrayList<Player> players;
+    private ArrayList<AI> computerPlayers;
     private HashMap<PlayerColor,Integer> score;
     public Field[][] gameboard;
-    public int valueNeededForWindowToDrawBoard;
-    public boolean inProgress;
-    public PlayerColor currentPlayer;
-    public int numberOfPlayers;
-    public ArrayList<PlayerColor> playerColors;
-    public ArrayList<PlayerColor> currentColors;
+    int valueNeededForWindowToDrawBoard;
+    boolean inProgress;
+    PlayerColor currentPlayer;
+    int numberOfPlayers;
+    private ArrayList<PlayerColor> playerColors;
+    ArrayList<PlayerColor> currentColors;
 
     private Point constants[];
-    public int boardSize;
+    int boardSize;
 
     //ArrayList<Point> possibleMoves = new ArrayList<>();
 
@@ -52,7 +49,7 @@ public class Game
         }
     }
 
-    public PlayerColor getEnemyColor(PlayerColor p){
+    PlayerColor getEnemyColor(PlayerColor p){
         switch (p){
             case YELLOW: return PlayerColor.GREEN;
             case WHITE: return PlayerColor.BLUE;
@@ -124,17 +121,12 @@ public class Game
         getPlayerByColor(currentPlayer).returnMessage(message);
     }
 
-    public void addPlayer(Player player)
+    void addPlayer(Player player)
     {
         players.add(player);
     }
 
-    public ArrayList<Player> getPlayers()
-    {
-        return players;
-    }
-
-    public void setStartingPlayer()
+    void setStartingPlayer()
     {
         if(players.size()<numberOfPlayers){
             fillWithAI();
@@ -143,7 +135,7 @@ public class Game
         currentPlayer = players.get(ran.nextInt(players.size())).getColor();
     }
 
-    void fillWithAI(){
+    private void fillWithAI(){
         computerPlayers=new ArrayList<>();
         for(PlayerColor p: playerColors){
             boolean add=true;
@@ -159,7 +151,7 @@ public class Game
         }
     }
 
-    public void changeTurn()
+    void changeTurn()
     {
         int i = playerColors.indexOf(currentPlayer);
         i++;
@@ -179,23 +171,12 @@ public class Game
                 break;
             }
         }
-        /*
-        int i = players.indexOf(currentPlayer);
-        if(i == players.size() - 1)
-        {
-            currentPlayer = players.get(0);
-        }
-        else
-        {
-            currentPlayer = players.get(i + 1);
-        }
-        */
     }
     Player getPlayerByColor(PlayerColor playerColor){
         Player player=null;
         for(Player p : players)
         {
-            if(p.getColor()==currentPlayer){
+            if(p.getColor()==playerColor){
                 player=p;
             }
         }
@@ -210,7 +191,7 @@ public class Game
         }
     }
 
-    public void move(int x1,int y1,int x2,int y2)
+    void move(int x1,int y1,int x2,int y2)
     {
         if(gameboard[x1][y1].getColor()==null&&gameboard[x2][y2]!=null) {
             if (gameboard[x2][y2].getColor() == getEnemyColor(gameboard[x1][y1].getPawn().getColor())) {
@@ -335,7 +316,7 @@ public class Game
         }
     }
 
-    public ArrayList<PlayerColor> getPlayerColors() {
+    ArrayList<PlayerColor> getPlayerColors() {
         return playerColors;
     }
 

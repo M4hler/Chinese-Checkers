@@ -13,13 +13,12 @@ import java.util.ArrayList;
 
 public class Controller
 {
-    GameBoardPanel panel;
+    private GameBoardPanel panel;
     FieldButton lastClicked;
     ArrayList<Point> highlighted;
-    Client client;
+    private Client client;
 
     private String name;
-    private String serverAddress;
     private BufferedReader input;
     private PrintWriter output;
 
@@ -31,16 +30,15 @@ public class Controller
         name = "";
         client = myclient;
 
-        serverAddress = client.setServerAddress();
         try
         {
-            Socket socket = new Socket(serverAddress, 8080);
+            Socket socket = new Socket(client.setServerAddress(), 8080);
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(), true);
         }
         catch(IOException e)
         {
-
+            e.printStackTrace();
         }
         setName();
     }
@@ -73,7 +71,7 @@ public class Controller
         output.println(index);
     }
 
-    public void pass()
+    void pass()
     {
         output.println("PASS");
     }
@@ -126,12 +124,12 @@ public class Controller
             }
             catch(IOException e)
             {
-
+                e.printStackTrace();
             }
         }
     }
 
-    public ArrayList<String> collectInformationAboutGame()
+    private ArrayList<String> collectInformationAboutGame()
     {
         ArrayList<String> players = new ArrayList<>();
         try
@@ -146,12 +144,12 @@ public class Controller
         }
         catch(IOException e)
         {
-
+            e.printStackTrace();
         }
         return players;
     }
 
-    public String getNumberOfPlayers()
+    private String getNumberOfPlayers()
     {
         return JOptionPane.showInputDialog(
                 client.frame,
@@ -160,17 +158,17 @@ public class Controller
                 JOptionPane.PLAIN_MESSAGE);
     }
 
-    public void startGame()
+    void startGame()
     {
         output.println("START GAME");
     }
 
-    public void closeGame()
+    void closeGame()
     {
         output.println("CLOSE GAME");
     }
 
-    public void setName()
+    private void setName()
     {
         while(true)
         {
@@ -189,7 +187,7 @@ public class Controller
             }
             catch(IOException e)
             {
-
+                e.printStackTrace();
             }
         }
     }
@@ -199,18 +197,18 @@ public class Controller
         return name;
     }
 
-    public void addPanel(GameBoardPanel panel)
+    void addPanel(GameBoardPanel panel)
     {
         this.panel=panel;
     }
 
-    public void highlight(ArrayList<Point> array)
+    void highlight(ArrayList<Point> array)
     {
         highlighted=array;
         panel.highlight(array);
     }
 
-    public void lowlight()
+    void lowlight()
     {
         if(highlighted == null)
         {
@@ -224,7 +222,7 @@ public class Controller
         }
     }
 
-    public void doMove(int x1,int y1,int x2,int y2)
+    void doMove(int x1,int y1,int x2,int y2)
     {
         lowlight();
         lastClicked=null;
@@ -254,11 +252,6 @@ public class Controller
                 sendToServer("canMove," + x1 + "," + y1 + "," + x2 + "," + y2);
             }
         }
-    }
-
-    void endTurn()
-    {
-        sendToServer("end");
     }
 
     void sendToServer(String code)

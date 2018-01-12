@@ -26,7 +26,7 @@ public class Player extends Thread
         g = null;
         color = null;
     }
-
+    @Override
     public void run()
     {
         try
@@ -144,13 +144,13 @@ public class Player extends Thread
         }
     }
 
-    public void returnMessage(String s)
+    void returnMessage(String s)
     {
         out.println("TEST");
         out.println(s);
     }
 
-    public void changeCurrentPlayer(Player player)
+    void changeCurrentPlayer(Player player)
     {
         out.println("CURRENT PLAYER");
         out.println(player.name);
@@ -195,7 +195,7 @@ public class Player extends Thread
         }
         catch(IOException e)
         {
-
+            System.out.print("I/O EXC");
         }
     }
 

@@ -43,7 +43,6 @@ public class GameboardCreator {
     private void initializeTriangles(int numberOfPlayers){
 
         int x,y,c;
-        Color color;
         PlayerColor pcolor;
         boolean doesPlay;
         for(int p=0;p<6;p++)
@@ -53,7 +52,6 @@ public class GameboardCreator {
                 x=0;
                 y=-radius;
                 c=4;
-                color= Color.GRAY;
                 pcolor=PlayerColor.BLACK;
                 if(numberOfPlayers==3)
                     doesPlay=false;
@@ -62,7 +60,6 @@ public class GameboardCreator {
                 x=radius;
                 y=-radius;
                 c=5;
-                color=Color.BLUE;
                 pcolor=PlayerColor.BLUE;
                 if(numberOfPlayers==2)
                     doesPlay=false;
@@ -70,7 +67,6 @@ public class GameboardCreator {
                 x=radius;
                 y=0;
                 c=6;
-                color=Color.GREEN;
                 pcolor= PlayerColor.GREEN;
                 if(numberOfPlayers!=6)
                     doesPlay=false;
@@ -78,14 +74,12 @@ public class GameboardCreator {
                 x=0;
                 y=radius;
                 c=1;
-                color=Color.RED;
                 pcolor=PlayerColor.RED;
 
             }else if(p==4){
                 x=-radius;
                 y=radius;
                 c=2;
-                color=Color.WHITE;
                 pcolor=PlayerColor.WHITE;
                 if(numberOfPlayers!=4 && numberOfPlayers!=6)
                     doesPlay=false;
@@ -93,7 +87,6 @@ public class GameboardCreator {
                 x=-radius;
                 y=0;
                 c=3;
-                color=Color.YELLOW;
                 pcolor=PlayerColor.YELLOW;
                 if(numberOfPlayers!=6 && numberOfPlayers!=3)
                     doesPlay=false;

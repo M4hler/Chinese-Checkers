@@ -5,32 +5,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.PrintWriter;
 
 public class GameWindow extends JFrame
 {
-    /*
-        opened after connection with server and game starting
-        contains gameboardpanel and game optionspanel like pause,chat,save etc
-     */
     public GameBoardPanel panel;
-    private JMenuBar jmenubar;
-    private JButton startGameButton;
-    private JButton passButton;
-    private Controller controller;
-
-    public GameWindow(int radius,int numberOfPlayers, Controller controller/*, Color player*/)
+    public GameWindow(int radius,int numberOfPlayers, Controller controller)
     {
-        this.controller = controller;
-
         this.setResizable(false);
         this.setSize(750,750);
         this.setLayout(null);
 
-        jmenubar = new JMenuBar();
-        startGameButton = new JButton("Start Game");
-        passButton = new JButton("Pass");
+        JMenuBar jmenubar = new JMenuBar();
+        JButton startGameButton = new JButton("Start Game");
+        JButton passButton = new JButton("Pass");
 
         jmenubar.add(startGameButton);
         jmenubar.add(Box.createHorizontalGlue());

@@ -12,7 +12,6 @@ public class GameBoardPanel extends JPanel
 {
     private FieldButton[][] board;
     private Colors colors;
-    private JLabel jlabel;
     private JLabel jlabel2;
 
     GameBoardPanel(int radius, Color player, Controller controller, int numberOfPlayers)
@@ -20,7 +19,7 @@ public class GameBoardPanel extends JPanel
         int size = 4 * radius + 1;
         this.board = new FieldButton[size][size];
         colors = new Colors();
-        jlabel = new JLabel("This window belongs to: " + controller.getName());
+        JLabel jlabel = new JLabel("This window belongs to: " + controller.getName());
         jlabel2 = new JLabel("Current player: ");
         this.add(jlabel);
         this.add(jlabel2);
@@ -64,7 +63,7 @@ public class GameBoardPanel extends JPanel
         this.repaint();
     }
 
-    public void setCurrentPlayerDisplay(String s)
+    void setCurrentPlayerDisplay(String s)
     {
         jlabel2.setText("Current player: " + s);
     }
