@@ -15,20 +15,20 @@ public class Colors
 
    public Colors()
    {
-        pawnYellow=new Color(255, 153, 0);
-        pawnBlue=new Color(0, 0, 102) ;
-        pawnBlack=new Color(26, 26, 26);
-        pawnGreen=new Color(0, 77, 0);
-        pawnWhite=new Color(191, 191, 191);
-        pawnRed=new Color(128, 0, 0);
-        highlighted =new Color(84, 24, 94);
-        field=Color.GRAY;
-        fieldYellow=Color.YELLOW;
-        fieldBlue=Color.blue;
-        fieldBlack=Color.BLACK;
-        fieldGreen=Color.GREEN;
-        fieldWhite=Color.WHITE;
-        fieldRed=Color.RED;
+        pawnYellow=new Color(255, 255, 0);
+        pawnBlue=new Color(0, 0, 150) ;
+        pawnBlack=Color.BLACK;
+        pawnGreen=new Color(0, 170, 0);
+        pawnWhite=new Color(204, 51, 153);
+        pawnRed=new Color(255, 0, 0);
+        highlighted =new Color(255, 85, 0);
+        field=new Color(242, 242, 242);
+        fieldYellow=new Color(255, 255, 204);
+        fieldBlue=new Color(179, 179, 255);
+        fieldBlack=Color.GRAY;
+        fieldGreen=new Color(153, 255, 187);
+        fieldWhite=new Color(255, 230, 255);
+        fieldRed=new Color(255, 204, 204);
     }
 
     public Color getPawnColor(PlayerColor p){

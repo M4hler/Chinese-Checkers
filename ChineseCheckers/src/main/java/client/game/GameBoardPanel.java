@@ -30,12 +30,12 @@ public class GameBoardPanel extends JPanel
         jlabel2.setSize(300, 16);
 
         this.setLayout(null);
-        this.setSize(1000, 1000);
+        this.setSize(750, 750);
 
         Field[][] board = new GameboardCreator(radius,numberOfPlayers).getBoard();
 
         int portion = 600 / (2 * size);
-        int baseX = 450;
+        int baseX = 350;
         int baseY = 350;
         int tempX, tempY;
         for (int x = 0; x < size; x++) {

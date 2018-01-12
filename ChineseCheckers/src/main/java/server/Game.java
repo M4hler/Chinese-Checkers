@@ -2,7 +2,10 @@ package server;
 // an instance of single game (multiple games can be played at one time at server)
 
 import gameParts.*;
+import gameParts.Point;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -162,10 +165,12 @@ public class Game
         i++;
         i=i%numberOfPlayers;
         currentPlayer=playerColors.get(i);
-        for(AI ai:computerPlayers){
-            if(ai.getPlayerColor()==currentPlayer){
-                ai.makeMove();
-                break;
+        if(computerPlayers!=null) {
+            for (AI ai : computerPlayers) {
+                if (ai.getPlayerColor() == currentPlayer) {
+                    ai.makeMove();
+                    break;
+                }
             }
         }
         for(Player p: players){
@@ -215,8 +220,11 @@ public class Game
                 val--;
                 score.replace(key,val);
                 if(val==0){
-                    //TODO: sth happens, someone won
-                    System.out.print("WINNER");
+                    for(Player p : players)
+                    {
+                        p.returnMessage("pog,"+key.name());
+                    }
+
                 }
             }
         }
@@ -276,12 +284,12 @@ public class Game
 
                 PlayerColor c = getEnemyColor(gameboard[x][y].getPawn().getColor());
 
-                Iterator<Point> iter = possibleMoves.iterator();
-                while (iter.hasNext()) {
-                    Point p = iter.next();
+                Iterator<Point> iterator = possibleMoves.iterator();
+                while (iterator.hasNext()) {
+                    Point p = iterator.next();
 
                     if (gameboard[p.getX()][p.getY()].getColor() != c)
-                        iter.remove();
+                        iterator.remove();
                 }
 
             }

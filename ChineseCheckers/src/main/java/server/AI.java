@@ -3,6 +3,8 @@ package server;
 import gameParts.PlayerColor;
 import gameParts.Point;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import static java.lang.Math.*;
 
 public class AI {
@@ -44,6 +46,12 @@ public class AI {
         if(start ==null || end ==null){
             longestMove=0;
         }else{
+            try{
+                TimeUnit.MILLISECONDS.sleep(400);
+            }catch (InterruptedException e){
+                System.out.println("sleep failure");
+            }
+
            game.move(start.getX(),start.getY(),end.getX(),end.getY());
         }
         longestMove=0;

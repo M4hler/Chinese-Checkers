@@ -247,7 +247,6 @@ public class Controller
                 int y2 = b.gety();
 //                lowlight();
                 sendToServer("canMove," + x1 + "," + y1 + "," + x2 + "," + y2);
-                //if can move, if cant lowlight and null
             }
         }
     }
@@ -290,6 +289,10 @@ public class Controller
                 array.add(new Point(x,y));
             }
             highlight(array);
+        }else if(code[0].equals("pog")){
+            String msg=code[1];
+            JOptionPane.showMessageDialog(null,msg+" WON!!!","Wow",JOptionPane.INFORMATION_MESSAGE,new ImageIcon("pog.jpg"));
+
         }
     }
 }

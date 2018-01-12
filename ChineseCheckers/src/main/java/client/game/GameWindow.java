@@ -25,7 +25,7 @@ public class GameWindow extends JFrame
         this.controller = controller;
 
         this.setResizable(false);
-        this.setSize(1000,1000);
+        this.setSize(750,750);
         this.setLayout(null);
 
         jmenubar = new JMenuBar();
