@@ -129,6 +129,8 @@ public class Player extends Thread
                             g.decodeMessage(command);
                         }
                     }
+                    else if(command.startsWith("PASS"))
+                        g.changeTurn();
                 }
             }
         }
