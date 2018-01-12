@@ -17,9 +17,9 @@ public class Game
     ArrayList<AI> computerPlayers;
     private HashMap<PlayerColor,Integer> score;
     public Field[][] gameboard;
-    public int valueNeededForWindowToDrawBoard; //temporary name
-    public boolean inProgress; //added
-    public PlayerColor currentPlayer; //added
+    public int valueNeededForWindowToDrawBoard;
+    public boolean inProgress;
+    public PlayerColor currentPlayer;
     public int numberOfPlayers;
     public ArrayList<PlayerColor> playerColors;
     public ArrayList<PlayerColor> currentColors;
@@ -50,11 +50,9 @@ public class Game
         for(PlayerColor p:playerColors){
             score.put(p,x);
         }
-
     }
 
-
-    PlayerColor getEnemyColor(PlayerColor p){
+    public PlayerColor getEnemyColor(PlayerColor p){
         switch (p){
             case YELLOW: return PlayerColor.GREEN;
             case WHITE: return PlayerColor.BLUE;
@@ -96,7 +94,8 @@ public class Game
             }
             array += ",end";
             sendMessage(array); //sending fileds where player can move
-        } else if(code[0].equals("canMove"))
+        }
+        else if(code[0].equals("canMove"))
         {
             int x1,y1,x2,y2;
             x1=Integer.parseInt(code[1]);
@@ -119,7 +118,7 @@ public class Game
         }
     }
 
-    void sendMessage(String message)
+    private void sendMessage(String message)
     {
         if(currentPlayer==null) return;
         getPlayerByColor(currentPlayer).returnMessage(message);
@@ -130,12 +129,12 @@ public class Game
         players.add(player);
     }
 
-    public void getPlayers()
+    public ArrayList<Player> getPlayers()
     {
-
+        return players;
     }
 
-    void setStartingPlayer()
+    public void setStartingPlayer()
     {
         if(players.size()<numberOfPlayers){
             fillWithAI();
@@ -159,7 +158,8 @@ public class Game
             }
         }
     }
-    private void changeTurn()
+
+    public void changeTurn()
     {
         int i = playerColors.indexOf(currentPlayer);
         i++;
@@ -190,7 +190,6 @@ public class Game
             currentPlayer = players.get(i + 1);
         }
         */
-
     }
     Player getPlayerByColor(PlayerColor playerColor){
         Player player=null;
@@ -373,6 +372,5 @@ public class Game
         }
         return pc;
     }
-
 }
 

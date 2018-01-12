@@ -73,6 +73,11 @@ public class Controller
         output.println(index);
     }
 
+    public void pass()
+    {
+        output.println("PASS");
+    }
+
     public void run()
     {
         while(true)

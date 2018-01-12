@@ -48,6 +48,13 @@ public class GameWindow extends JFrame
             }
         });
 
+        passButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.pass();
+            }
+        });
+
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e)
